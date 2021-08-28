@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+h1,h2,h3,h4,h5,h6{
+    color: var(--text);
+}
+
+*{
+    color: var(--subText);
+    @apply select-none;
+}
+
+body {    
+    --backgroundDark: #1e2224;
+    --backgroundMedium: #23272a;
+    --backgroundLight: #2a2e32;
+
+    --text: rgb(231, 234, 236);
+    --subText: rgb(197, 200, 204);
+
+    --link: #86c232;
+    --link-hover: #ffffff;
+    --link-focus: #547c1c;
+}
+
+body.light {
+    --backgroundDark: #d7dadb;
+    --backgroundMedium: #e8ebed;
+    --backgroundLight: #edf2f7;
+    
+    --text: rgb(30, 34, 36);
+    --subText: rgb(72, 79, 85);
+    
+    --link: rgb(69, 112, 9);
+    --link-hover: black;
+    --link-focus: rgb(46, 75, 6);
+}
+
+
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
+
+.icons {
+    font-family: "Material Icons Outlined";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "liga";
+}

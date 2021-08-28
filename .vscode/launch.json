@@ -8,8 +8,8 @@
             "name": "Launch Package",
             "type": "go",
             "request": "launch",
-            "mode": "exec",
-            "program": "${fileDirname}"
+            "mode": "debug",
+            "program": "${workspaceFolder}"
         }
     ]
 }

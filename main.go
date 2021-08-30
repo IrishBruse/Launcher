@@ -4,6 +4,7 @@ import (
 	"embed"
 	"fmt"
 	"io"
+	"io/fs"
 	"log"
 	"net"
 	"net/http"
@@ -16,8 +17,8 @@ import (
 	"github.com/zserge/lorca"
 )
 
-// go:embed www
-var fs embed.FS
+//go:embed www/*
+var gui embed.FS
 
 func main() {
 	webview, _ := lorca.New("", "", 1280, 720)
@@ -33,8 +34,20 @@ func main() {
 	}
 	defer ln.Close()
 
-	go http.Serve(ln, http.FileServer(http.FS(fs)))
-	webview.Load(fmt.Sprintf("http://%s/www", ln.Addr()))
+	// Website data
+	fsWWW, _ := fs.Sub(gui, "www")
+	rootHandler := http.FileServer(http.FS(fsWWW))
+	http.Handle("/", rootHandler)
+
+	// Game downloads data
+	games := os.DirFS("./games/")
+	gamesHandler := http.FileServer(http.FS(games))
+	handler := http.StripPrefix("/games/", gamesHandler)
+	http.Handle("/games/", handler)
+
+	go http.Serve(ln, nil)
+
+	webview.Load(fmt.Sprintf("http://%s/", ln.Addr()))
 
 	// Wait until the interrupt signal arrives or browser window is closed
 	sigc := make(chan os.Signal)
@@ -50,7 +63,7 @@ func main() {
 func dropboxDownload() {
 
 	config := dropbox.Config{
-		Token:    "sl.A3S_ZRNOoini4aF37yLn1qv8yp5bUE23TV8VHwHNFU2qtVyKrR2l6Yy9 gAL1hqdH8AYhMjeTNPKnG2PzVSLlwviTeyMwEOTiH-VmEu_V14hjX4h1qPvQDJEpv60Mxjp_2fuJRSZp",
+		Token:    "IlMtswMVJHQAAAAAAAAAAUwdNgm0R6QOWjgXE8pC4i3mUcXtRUFEOhWSp5grHTww",
 		LogLevel: dropbox.LogDebug,
 	}
 
@@ -94,5 +107,4 @@ func dropboxDownload() {
 		}
 
 	}
-
 }

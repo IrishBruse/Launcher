@@ -13,27 +13,27 @@ h1,h2,h3,h4,h5,h6{
 }
 
 body {    
-    --backgroundDark: #1e2224;
-    --backgroundMedium: #23272a;
-    --backgroundLight: #2a2e32;
+    --backgroundDark: hsl(200, 9%, 13%);
+    --backgroundMedium: hsl(206, 9%, 15%);
+    --backgroundLight: hsl(210, 9%, 18%);
 
     --text: rgb(231, 234, 236);
     --subText: rgb(197, 200, 204);
 
-    --link: #86c232;
+    --link: #457009;
     --link-hover: #ffffff;
     --link-focus: #547c1c;
 }
 
 body.light {
-    --backgroundDark: #d7dadb;
-    --backgroundMedium: #e8ebed;
-    --backgroundLight: #edf2f7;
+    --backgroundDark: hsl(200, 5%, 77%);
+    --backgroundMedium: hsl(210, 38%, 95%);
+    --backgroundLight: hsl(206, 9%, 85%);
     
-    --text: rgb(30, 34, 36);
-    --subText: rgb(72, 79, 85);
+    --text: rgb(0, 0, 0);
+    --subText: rgb(45, 47, 49);
     
-    --link: rgb(69, 112, 9);
+    --link: #86c232;
     --link-hover: black;
     --link-focus: rgb(46, 75, 6);
 }

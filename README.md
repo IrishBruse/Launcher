@@ -1,6 +1,7 @@
 # Launcher
-Download and update Launcher for my games and apps
+Download and update Launcher for all my games and software
 
-to build the application first run 
-- `npm run build` in the gui folder this will build the gui to the www folder
-- then you can `go run ./` or `go build ./` in the root
+## Build Intructions 
+1. Cd into `gui` folder
+2. Then run `npm run build` this will build the **vue** site to the `embed` folder
+3. then you can `go run ./` or `go build ./` in the root

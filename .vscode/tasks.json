@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "npm",
+            "script": "serve",
+            "path": "gui/",
+            "problemMatcher": [
+                "$jshint"
+            ],
+            "label": "npm: serve - gui",
+            "detail": "vue-cli-service serve"
+        }
+    ]
+}

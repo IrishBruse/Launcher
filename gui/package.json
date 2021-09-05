@@ -4,12 +4,12 @@
     "private": true,
     "scripts": {
         "serve": "vue-cli-service serve",
-        "build": "vue-cli-service build --dest ../www",
+        "build": "vue-cli-service build --dest ../embed",
+        "watch": "vue-cli-service build --watch --mode development --dest ../embed",
         "lint": "vue-cli-service lint"
     },
     "dependencies": {
         "core-js": "^3.6.5",
-        "dropbox": "^10.8.0",
         "vue": "^3.0.0"
     },
     "devDependencies": {
@@ -26,25 +26,7 @@
         "eslint-plugin-vue": "^7.0.0",
         "postcss": "^7.0.36",
         "prettier": "^2.2.1",
-        "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7"
-    },
-    "eslintConfig": {
-        "root": true,
-        "env": {
-            "node": true
-        },
-        "extends": [
-            "plugin:vue/vue3-essential",
-            "eslint:recommended"
-        ],
-        "parserOptions": {
-            "parser": "babel-eslint"
-        },
-        "rules": {}
-    },
-    "browserslist": [
-        "> 1%",
-        "last 2 versions",
-        "not dead"
-    ]
+        "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.7",
+        "vue-loader": "^15.9.8"
+    }
 }

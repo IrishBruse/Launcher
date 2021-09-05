@@ -2,23 +2,34 @@ module.exports = {
     purge: ['./public/index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
     darkMode: false,
     theme: {
-        extend: {},
+        extend: {
+        },
         colors: {
             'primary': {
-                dark: "var(--backgroundDark)",
-                DEFAULT: "var(--backgroundMedium)",
-                light: "var(--backgroundLight)",
+                dark: "var(--primaryDark)",
+                DEFAULT: "var(--primaryMedium)",
+                light: "var(--primaryLight)",
+                hover: "var(--primaryHover)",
             },
-            'secondary': 'var(--text)',
-            'secondary-hover': 'var(--subText)',
-            'tertiary': 'var(--link)',
+            'secondary': {
+                dark: 'var(--secondaryDark)',
+                DEFAULT: 'var(--secondaryMedium)',
+            },
+            'tertiary': {
+                dark: 'var(--tertiaryDark)',
+                DEFAULT: 'var(--tertiary)',
+            },
+            'white': 'white',
+            'black': 'black',
         }
     },
     fontFamily: {
         sans: ['Open Sans', 'sans-serif'],
     },
     variants: {
-        extend: {},
+        extend: {
+            borderRadius: ['hover', 'group-hover', 'focus'],
+        }
     },
     plugins: [],
 }

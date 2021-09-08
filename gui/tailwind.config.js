@@ -5,6 +5,7 @@ module.exports = {
         extend: {
         },
         colors: {
+            'transparent': "transparent",
             'primary': {
                 dark: "var(--primaryDark)",
                 DEFAULT: "var(--primaryMedium)",

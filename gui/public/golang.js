@@ -16,4 +16,5 @@ From go to js
 var projectsMetadata;
 var downloadedProjectsMetadata = new Event("DownloadedProjectsMetadata");
 
-var downloadProgress;
+var downloadProgress = 20;
+var downloadProgressChange = new Event("DownloadProgressChange");

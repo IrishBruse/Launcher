@@ -10,13 +10,17 @@ import (
 
 const dropboxToken = "IlMtswMVJHQAAAAAAAAAAUwdNgm0R6QOWjgXE8pC4i3mUcXtRUFEOhWSp5grHTww"
 
-type projectMetadata struct {
+type VersionMetadata struct {
+	Version string
+	Url     string
+}
+type ProjectMetadata struct {
 	Name     string
 	IconURL  string
-	Versions []string
+	Versions []VersionMetadata
 }
 
-func getProjectsMetadata() []projectMetadata {
+func getProjectsMetadata() []ProjectMetadata {
 
 	config := dropbox.Config{
 		Token:    dropboxToken,
@@ -28,7 +32,7 @@ func getProjectsMetadata() []projectMetadata {
 	listFolderArg.Recursive = false
 	resp, _ := dbx.ListFolder(listFolderArg)
 
-	projects := make([]projectMetadata, 0)
+	projects := make([]ProjectMetadata, 0)
 
 	for _, entry := range resp.Entries {
 
@@ -43,15 +47,15 @@ func getProjectsMetadata() []projectMetadata {
 	return projects
 }
 
-func getProjectMetadata(projectName string, dbx files.Client) projectMetadata {
-	project := projectMetadata{}
+func getProjectMetadata(projectName string, dbx files.Client) ProjectMetadata {
+	project := ProjectMetadata{}
 	project.Name = projectName
 
 	listFolderArg := files.NewListFolderArg("/" + projectName)
 	listFolderArg.Recursive = false
 	resp, _ := dbx.ListFolder(listFolderArg)
 
-	versions := make([]string, 0)
+	versions := make([]VersionMetadata, 0)
 
 	for _, entry := range resp.Entries {
 
@@ -66,7 +70,9 @@ func getProjectMetadata(projectName string, dbx files.Client) projectMetadata {
 
 				project.IconURL = res.Link
 			} else if strings.Contains(f.PathLower, ".zip") {
-				version := strings.ReplaceAll(f.Name, ".zip", "")
+				version := VersionMetadata{}
+				version.Version = strings.ReplaceAll(f.Name, ".zip", "")
+				version.Url = projectName + "/" + f.Name
 				versions = append(versions, version)
 			}
 		}

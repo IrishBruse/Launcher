@@ -1,8 +1,8 @@
 
 <template>
     <div class="flex-grow bg-primary-light" ref="list">
-        <button v-for="project in projectData" :key="project.Name" class="gameSelect" @click="changeProject($event.currentTarget, project)">
-            <img :src="project.IconURL" class="h-full transition-all duration-300 rounded-3xl group-hover:rounded-xl bg-white" />
+        <button v-for="(project, i) in projectsData" :key="project.Name" class="gameSelect" @click="changeProject(i, project)">
+            <img :src="project.IconURL" class="h-full bg-secondary transition-all duration-300 rounded-3xl group-hover:rounded-xl" />
             <h1 class="text-left flex-grow self-center px-2 overflow-hidden overflow-ellipsis">{{ project.Name }}</h1>
         </button>
     </div>
@@ -13,25 +13,30 @@ import { onMounted, ref } from "vue";
 
 const emit = defineEmits(["projectChanged"]);
 
-const projectData = ref();
+const projectsData = ref();
 const list = ref();
+const projects = ref([]);
 
-const changeProject = (elem, currentProject) => {
+const changeProject = (index, currentProject) => {
     for (let i = 0; i < list.value.children.length; i++) {
-        var current = elem == list.value.children[i];
+        var current = index == i;
         list.value.children[i].classList.toggle("current", current);
     }
 
     emit("projectChanged", currentProject.Name, currentProject.Versions);
 };
 
+function handleDownload() {
+    projectsData.value = projectsMetadata;
+
+    setTimeout(() => {
+        changeProject(0, projectsData.value[0]);
+    }, 1);
+    document.removeEventListener("DownloadedProjectsMetadata", handleDownload);
+}
+
 onMounted(() => {
-    document.addEventListener("DownloadedProjectsMetadata", () => {
-        projectData.value = projectsMetadata;
-        setTimeout(() => {
-            emit("projectChanged", "Pick a game", ["none"]);
-        }, 1);
-    });
+    document.addEventListener("DownloadedProjectsMetadata", handleDownload);
 });
 </script>
 

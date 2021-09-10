@@ -18,7 +18,7 @@ const props = defineProps({ CurrentGame: Object });
 const finishedLoading = ref(false);
 
 onMounted(() => {
-    document.addEventListener("DownloadedProjectsMetadata", () => {
+    window.addEventListener("DownloadMetadataEvent", () => {
         finishedLoading.value = true;
     });
 });

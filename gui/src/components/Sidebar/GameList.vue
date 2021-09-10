@@ -27,16 +27,16 @@ const changeProject = (index, currentProject) => {
 };
 
 function handleDownload() {
-    projectsData.value = projectsMetadata;
+    projectsData.value = DownloadMetadata;
 
     setTimeout(() => {
         changeProject(0, projectsData.value[0]);
     }, 1);
-    document.removeEventListener("DownloadedProjectsMetadata", handleDownload);
+    window.removeEventListener("DownloadMetadataEvent", handleDownload);
 }
 
 onMounted(() => {
-    document.addEventListener("DownloadedProjectsMetadata", handleDownload);
+    window.addEventListener("DownloadMetadataEvent", handleDownload);
 });
 </script>
 

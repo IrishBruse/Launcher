@@ -3,7 +3,6 @@ package main
 import (
 	"embed"
 	"fmt"
-	"io/fs"
 	"log"
 	"net"
 	"net/http"
@@ -15,15 +14,13 @@ import (
 //go:embed embed/*
 var gui embed.FS
 
-func initializeGui(callback func(webview lorca.UI)) {
-	webview, _ := lorca.New("", "", 1280, 720)
+func initializeGui(webview lorca.UI, callback func()) {
 	webview.SetBounds(lorca.Bounds{Left: 320, Top: 180, Width: 1280, Height: 720})
-	defer webview.Close()
 
 	// This functions should be called once the website is done loading
 	// and is called from js
 	webview.Bind("start", func() {
-		callback(webview)
+		callback()
 	})
 
 	ln, err := net.Listen("tcp", "127.0.0.1:0")
@@ -33,8 +30,9 @@ func initializeGui(callback func(webview lorca.UI)) {
 	defer ln.Close()
 
 	// Website data
-	fsWWW, _ := fs.Sub(gui, "embed")
-	rootHandler := http.FileServer(http.FS(fsWWW))
+	// fsWWW, _ := fs.Sub(gui, "embed")
+	//  fsWWW, _ := fs.(gui, "embed")
+	rootHandler := http.FileServer(http.Dir("embed/"))
 	http.Handle("/", rootHandler)
 
 	// Game downloads data
@@ -48,5 +46,4 @@ func initializeGui(callback func(webview lorca.UI)) {
 	webview.Load(fmt.Sprintf("http://%s/", ln.Addr()))
 
 	<-webview.Done()
-	webview.Close()
 }

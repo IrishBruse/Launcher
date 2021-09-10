@@ -1,6 +1,6 @@
 <template>
-    <div class="w-48 flex flex-col">
-        <ThemeToggle @toggledTheme="toggledTheme" />
+    <div class="w-56 flex flex-col">
+        <ThemeToggle @toggledTheme="toggleTheme" />
         <GameList @projectChanged="changeProject" />
         <Settings />
     </div>
@@ -19,7 +19,7 @@ import Titlebar from "./components/MainColumn/Titlebar.vue";
 import ThemeToggle from "./components/Sidebar/ThemeToggle.vue";
 import GameList from "./components/Sidebar/GameList.vue";
 import Settings from "./components/Sidebar/Settings.vue";
-import { onMounted } from "vue";
+import { onMounted, watch } from "vue";
 
 // CurrentGame
 const finishedLoading = ref(false);
@@ -33,25 +33,29 @@ const changeProject = (projectName, projectVersions) => {
     currentGame.value.Url = "https://www.ethanconneely.com/projects/" + projectName + "/?launcher=true&theme=" + (isLight.value == "true" ? "light" : "dark");
 };
 
-const toggledTheme = () => {
+const toggleTheme = () => {
     isLight.value = localStorage.getItem("isLight");
+    currentGame.value.Url =
+        "https://www.ethanconneely.com/projects/" + currentGame.value.Name + "/?launcher=true&theme=" + (isLight.value == "true" ? "light" : "dark");
 };
+
+var lastHeartbeat;
 
 onMounted(() => {
     setTimeout(() => {
         start();
     }, 1);
-    toggledTheme();
+    toggleTheme();
 
     // disable right click to hide the fact its basicly just a browser window
-    window.addEventListener("contextmenu", (event) => event.preventDefault());
+    document.addEventListener("contextmenu", (event) => event.preventDefault());
 
-    window.addEventListener("DownloadedProjectsMetadata", () => {
+    window.addEventListener("DownloadMetadataEvent", () => {
         finishedLoading.value = true;
     });
 
     // TODO: When Downloading a game pop this up
-    window.addEventListener("beforeunload", function (e) {
+    document.addEventListener("beforeunload", function (e) {
         // e.preventDefault();
         // e.returnValue = "";
     });

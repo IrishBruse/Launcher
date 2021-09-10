@@ -1,0 +1,10 @@
+{
+    "files.exclude": {
+        ".eslintrc.json": true,
+        ".gitignore": true,
+        "LICENSE": true,
+        "README.md": true,
+        "resource.syso": true,
+        "versioninfo.json": true
+    }
+}

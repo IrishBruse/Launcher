@@ -5,6 +5,7 @@
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build --dest ../embed",
+        "debug": "vue-cli-service build --mode development --dest ../embed",
         "watch": "vue-cli-service build --watch --mode development --dest ../embed",
         "lint": "vue-cli-service lint"
     },

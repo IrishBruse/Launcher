@@ -1,11 +1,17 @@
 package main
 
 import (
+	"fmt"
+	"io"
+	"io/fs"
 	"log"
+	"os"
+	"path"
 	"strings"
 
 	"github.com/dropbox/dropbox-sdk-go-unofficial/v6/dropbox"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/v6/dropbox/files"
+	"github.com/mitchellh/ioprogress"
 )
 
 const dropboxToken = "IlMtswMVJHQAAAAAAAAAAUwdNgm0R6QOWjgXE8pC4i3mUcXtRUFEOhWSp5grHTww"
@@ -14,6 +20,7 @@ type VersionMetadata struct {
 	Version string
 	Url     string
 }
+
 type ProjectMetadata struct {
 	Name     string
 	IconURL  string
@@ -72,7 +79,7 @@ func getProjectMetadata(projectName string, dbx files.Client) ProjectMetadata {
 			} else if strings.Contains(f.PathLower, ".zip") {
 				version := VersionMetadata{}
 				version.Version = strings.ReplaceAll(f.Name, ".zip", "")
-				version.Url = projectName + "/" + f.Name
+				version.Url = "/" + projectName + "/" + f.Name
 				versions = append(versions, version)
 			}
 		}
@@ -83,20 +90,41 @@ func getProjectMetadata(projectName string, dbx files.Client) ProjectMetadata {
 	return project
 }
 
-// case *files.FileMetadata:
-// 	var getTempLink = files.NewGetTemporaryLinkArg(f.PathLower)
-// 	if strings.Contains(f.PathLower, "Icon.png") {
+func downloadFromUrl(url string) error {
+	config := dropbox.Config{
+		Token:    dropboxToken,
+		LogLevel: dropbox.LogDebug,
+	}
 
-// 		res, err := dbx.GetTemporaryLink(getTempLink)
-// 		if err != nil {
-// 			log.Fatal(err)
-// 		}
-// 		var projectName = path.Base(f.PathLower)
-// 		t := projects[projectName]
-// 		t.iconURL = res.Link
-// 		projects[projectName] = t
-// 	} else if strings.Contains(f.PathLower, ".zip") {
+	dbx := files.New(config)
+	downloadArg := files.NewDownloadArg(url)
 
-// 		// fmt.Println(get)
-// 		// fmt.Println(res.Link)
-// 	}
+	res, reader, err := dbx.Download(downloadArg)
+
+	if err != nil {
+		return err
+	}
+	defer reader.Close()
+
+	os.MkdirAll(downloadsFolder+path.Dir(url), fs.ModeDir)
+
+	f, _ := os.Create(downloadsFolder + url)
+	defer f.Close()
+
+	progressbar := &ioprogress.Reader{
+		Reader: reader,
+		Size:   int64(res.Size),
+		DrawFunc: ioprogress.DrawTerminalf(os.Stderr, func(i1, i2 int64) string {
+			percent := float32(i1) / float32(i2) * 100.0
+
+			webview.Eval(fmt.Sprintf("DownloadProgress=%.2f", percent))
+			webview.Eval("window.dispatchEvent(DownloadProgressEvent)")
+
+			return fmt.Sprintf("%f/%f", percent, 100.0)
+		}),
+	}
+
+	io.Copy(f, progressbar)
+
+	return nil
+}

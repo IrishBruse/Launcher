@@ -13,8 +13,10 @@ From go to js
 */
 
 // object with icon url link and array of versions 
-var projectsMetadata;
-var downloadedProjectsMetadata = new Event("DownloadedProjectsMetadata");
+var DownloadMetadata;
+var DownloadMetadataEvent = new Event("DownloadMetadataEvent");
 
-var downloadProgress = 20;
-var downloadProgressChange = new Event("DownloadProgressChange");
+var DownloadProgress = 0;
+var DownloadProgressEvent = new Event("DownloadProgressEvent");
+
+var DownloadedVersions = {};

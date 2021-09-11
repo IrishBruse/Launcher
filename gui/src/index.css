@@ -3,43 +3,13 @@
 @tailwind utilities;
 
 
-h1,h2,h3,h4,h5,h6{
-    color: var(--secondaryMedium);
+h1,h2,h3,h4,h5,h6{ 
+    @apply text-secondary;
 }
 
 *{
-    color: var(--secondaryDark);
-    @apply select-none;
+    @apply select-none text-secondary-dark;
 }
-
-body {    
-    --primaryDark: hsl(203, 12%, 11%);
-    --primaryMedium: hsl(206, 9%, 13%);
-    --primaryLight: hsl(206, 9%, 15%);
-    --primaryHover: hsl(209, 9%, 17%);
-
-    --secondaryDark: hsl(214, 5%, 73%);
-    --secondaryMedium: hsl(204, 12%, 92%);
-
-    --tertiaryDark: hsl(85, 63%, 30%);
-    --tertiary:hsl(85, 59%, 48%);
-    --tertiaryHover:hsl(0, 0%, 100%);
-}
-
-body.light {
-    --primaryDark: hsl(200, 5%, 77%);
-    --primaryMedium: hsl(204, 12%, 92%);
-    --primaryLight: hsl(210, 38%, 95%);
-    --primaryHover: hsl(200, 3%, 64%);
-
-    --secondaryDark: hsl(0, 0%, 9%);
-    --secondaryMedium: hsl(210, 4%, 18%);
-
-    --tertiaryDark: hsl(85, 63%, 30%);
-    --tertiary:hsl(85, 59%, 48%);
-    --tertiaryHover:hsl(0, 0%, 0%);
-}
-
 
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
 

@@ -5,6 +5,9 @@
         "LICENSE": true,
         "README.md": true,
         "resource.syso": true,
+        "Icon.ico": true,
+        "*.exe": true,
+        "*.iss": true,
         "versioninfo.json": true
     }
 }

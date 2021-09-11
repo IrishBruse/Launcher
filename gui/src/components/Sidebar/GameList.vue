@@ -1,8 +1,11 @@
 
 <template>
-    <div class="flex-grow bg-primary-light" ref="list">
+    <div class="max-w-56 bg-primary-light" ref="list">
         <button v-for="(project, i) in projectsData" :key="project.Name" class="gameSelect" @click="changeProject(i, project)">
-            <img :src="project.IconURL" class="h-full bg-secondary transition-all duration-300 rounded-3xl group-hover:rounded-xl" />
+            <img
+                :src="project.IconURL"
+                class="h-full bg-secondary transition-all duration-300 rounded-3xl border-white border-2 border-solid group-hover:rounded-xl"
+            />
             <h1 class="text-left flex-grow self-center px-2 overflow-hidden overflow-ellipsis">{{ project.Name }}</h1>
         </button>
     </div>
@@ -42,11 +45,11 @@ onMounted(() => {
 
 <style >
 .gameSelect {
-    @apply group transition duration-300 w-full h-14 relative flex p-2 cursor-pointer hover:bg-primary-hover;
+    @apply group transition bg-primary-light duration-300 w-full h-14 relative flex p-2 cursor-pointer hover:bg-primary-hover;
 }
 
-.gameSelect.current > div {
-    @apply scale-y-100;
+.gameSelect.current {
+    @apply bg-primary-hover;
 }
 
 .gameSelect.current > img {
@@ -54,7 +57,7 @@ onMounted(() => {
 }
 
 .gameSelect.current > h1 {
-    @apply font-bold;
+    @apply font-semibold;
 }
 
 .clipLoadingCircle {

@@ -3,6 +3,7 @@ package main
 import (
 	"embed"
 	"fmt"
+	"io/fs"
 	"log"
 	"net"
 	"net/http"
@@ -30,9 +31,11 @@ func initializeGui(webview lorca.UI, callback func()) {
 	defer ln.Close()
 
 	// Website data
-	// fsWWW, _ := fs.Sub(gui, "embed")
 	//  fsWWW, _ := fs.(gui, "embed")
-	rootHandler := http.FileServer(http.Dir("embed/"))
+	// rootHandler := http.FileServer(http.Dir("embed/"))
+
+	fsWWW, _ := fs.Sub(gui, "embed")
+	rootHandler := http.FileServer(http.FS(fsWWW))
 	http.Handle("/", rootHandler)
 
 	// Game downloads data

@@ -1,13 +1,22 @@
 <template>
-    <div class="w-56 flex flex-col">
-        <ThemeToggle @toggledTheme="toggleTheme" />
-        <GameList @projectChanged="changeProject" />
-        <Settings />
-    </div>
-    <div class="w-full h-screen flex flex-col self-center justify-center">
+    <div class="flex flex-col w-screen h-screen">
         <Titlebar :CurrentGame="currentGame"></Titlebar>
-        <ProjectDescription :CurrentGame="currentGame"></ProjectDescription>
+
+        <div class="w-full h-full flex-grow flex flex-row">
+            <GameList @projectChanged="changeProject" />
+            <ProjectDescription :CurrentGame="currentGame"></ProjectDescription>
+        </div>
+
         <ProjectInteraction :CurrentGame="currentGame"></ProjectInteraction>
+    </div>
+
+    <div class="absolute w-screen h-screen bg-primary transition duration-200" ref="LoadingScreen">
+        <div class="flex justify-center h-full">
+            <h1 class="justify-start self-center px-2 text-4xl">Loading</h1>
+            <div class="w-16 h-16 self-center">
+                <h2 class="absolute icons text-6xl text-tertiary clipLoadingCircle animate-spin">circle</h2>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -16,48 +25,47 @@ import { ref, computed } from "@vue/reactivity";
 import ProjectDescription from "./components/MainColumn/ProjectView.vue";
 import ProjectInteraction from "./components/MainColumn/ProjectInteraction.vue";
 import Titlebar from "./components/MainColumn/Titlebar.vue";
-import ThemeToggle from "./components/Sidebar/ThemeToggle.vue";
 import GameList from "./components/Sidebar/GameList.vue";
-import Settings from "./components/Sidebar/Settings.vue";
 import { onMounted, watch } from "vue";
 
 // CurrentGame
 const finishedLoading = ref(false);
 const currentGame = ref({ Name: null, Versions: [], Url: "" });
-
-const isLight = ref(false);
+const LoadingScreen = ref();
 
 const changeProject = (projectName, projectVersions) => {
     currentGame.value.Name = projectName;
     currentGame.value.Versions = projectVersions.reverse();
-    currentGame.value.Url = "https://www.ethanconneely.com/projects/" + projectName + "/?launcher=true&theme=" + (isLight.value == "true" ? "light" : "dark");
+    currentGame.value.Url = "https://www.ethanconneely.com/projects/" + projectName + "/?launcher=true&theme=dark";
 };
-
-const toggleTheme = () => {
-    isLight.value = localStorage.getItem("isLight");
-    currentGame.value.Url =
-        "https://www.ethanconneely.com/projects/" + currentGame.value.Name + "/?launcher=true&theme=" + (isLight.value == "true" ? "light" : "dark");
-};
-
-var lastHeartbeat;
 
 onMounted(() => {
     setTimeout(() => {
         start();
     }, 1);
-    toggleTheme();
 
     // disable right click to hide the fact its basicly just a browser window
     document.addEventListener("contextmenu", (event) => event.preventDefault());
 
     window.addEventListener("DownloadMetadataEvent", () => {
         finishedLoading.value = true;
-    });
-
-    // TODO: When Downloading a game pop this up
-    document.addEventListener("beforeunload", function (e) {
-        // e.preventDefault();
-        // e.returnValue = "";
+        setTimeout(() => {
+            LoadingScreen.value.classList.add("Hide");
+            setTimeout(() => {
+                LoadingScreen.value.classList.add("Disabled");
+                LoadingScreen.value.classList.remove("Hide");
+            }, 300);
+        }, 3000);
     });
 });
 </script>
+
+<style>
+.Hide {
+    @apply opacity-0;
+}
+
+.Disabled {
+    @apply hidden;
+}
+</style>

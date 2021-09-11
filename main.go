@@ -10,11 +10,9 @@ import (
 	"log"
 	"os"
 	"os/exec"
-	"os/signal"
 	"path"
 	"path/filepath"
 	"strings"
-	"syscall"
 	"time"
 
 	"github.com/zserge/lorca"
@@ -22,7 +20,6 @@ import (
 
 var downloadsFolder string
 var cacheFile string
-var settingsFile string
 
 var webview lorca.UI
 
@@ -31,19 +28,8 @@ func main() {
 
 	downloadsFolder = path.Join(Appdata, "IrishBruse", "Launcher")
 	cacheFile = path.Join(downloadsFolder, "DropboxCache.json")
-	settingsFile = path.Join(downloadsFolder, "Settings.json")
-
-	// TODO: make an option in settings to change downloadsFolder
 
 	webview, _ = lorca.New("", "", 1280, 720)
-
-	c := make(chan os.Signal)
-	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
-	go func() {
-		<-c
-		webview.Close()
-		os.Exit(1)
-	}()
 
 	initializeGui(webview, onWebviewLoaded)
 }

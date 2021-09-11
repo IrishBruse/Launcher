@@ -1,6 +1,6 @@
 <template>
     <div class="h-12 relative flex bg-primary-dark">
-        <div class="justify-start self-center px-4">
+        <div class="justify-start self-center px-8">
             <label class="mr-2"> Version: </label>
 
             <select class="transition duration-300 cursor-pointer bg-primary hover:bg-primary-hover h-8 px-2 outline-none rounded-md" v-model="selectedVersion">
@@ -53,30 +53,42 @@ watch(
     () => props.CurrentGame.Versions,
     (newVal, oldVal) => {
         selectedVersion.value = newVal[0].Version;
+        UpdateButtonState();
     },
 );
 
 watch(
     () => selectedVersion.value,
     (newVal, oldVal) => {
-        console.log(newVal);
-        console.log(props.CurrentGame.Name);
-        console.log(DownloadedVersions[props.CurrentGame.Name]);
-        buttonText.value = "Download";
-        if (DownloadedVersions[props.CurrentGame.Name] != null) {
-            if (DownloadedVersions[props.CurrentGame.Name].includes(newVal)) {
-                buttonText.value = "Play";
-            }
-        }
+        UpdateButtonState();
     },
 );
 
+watch(
+    () => props.CurrentGame,
+    (newVal, oldVal) => {
+        UpdateButtonState();
+    },
+    {
+        immediate: true,
+        deep: true,
+    },
+);
+
+function UpdateButtonState() {
+    buttonText.value = "Download";
+    if (DownloadedVersions[props.CurrentGame.Name] != null) {
+        if (DownloadedVersions[props.CurrentGame.Name].includes(selectedVersion.value)) {
+            buttonText.value = "Play";
+        }
+    }
+}
+
 const ButtonClicked = () => {
     if (DownloadedVersions[props.CurrentGame.Name] != null && DownloadedVersions[props.CurrentGame.Name].includes(selectedVersion.value)) {
-        buttonText.value = "Play";
         Play(props.CurrentGame.Name + "/" + selectedVersion.value + "/");
     } else {
-        TogglePlayButton();
+        ToggleButton();
         let downloadUrl;
 
         props.CurrentGame.Versions.forEach((v) => {
@@ -96,7 +108,7 @@ onMounted(() => {
 
         if (DownloadProgress == 100) {
             buttonText.value = "Play";
-            TogglePlayButton();
+            ToggleButton();
             setTimeout(() => {
                 progressBarFill.value.style.width = 0 + "%";
             }, 200);
@@ -104,7 +116,8 @@ onMounted(() => {
     });
 });
 
-function TogglePlayButton() {
+function ToggleButton() {
+    GameDownloadPercent.value = 0;
     progressBar.value.classList.toggle("hide");
     playButton.value.classList.toggle("hide");
 

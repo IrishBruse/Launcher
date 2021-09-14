@@ -20,6 +20,11 @@ module.exports = {
                 DEFAULT: 'hsl(85, 59%, 48%)',
             },
             'white': 'white',
+            'delete': {
+                DEFAULT: '#FF4136',
+                hover: '#FF6057'
+            },
+            'confirm': '#2ECC40',
             'black': 'black',
         }
     },

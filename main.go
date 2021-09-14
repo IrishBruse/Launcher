@@ -37,6 +37,7 @@ func main() {
 func onWebviewLoaded() {
 	webview.Bind("Download", Download)
 	webview.Bind("Play", Play)
+	webview.Bind("Delete", Delete)
 
 	var data []byte
 
@@ -105,7 +106,7 @@ func Download(file string) {
 				DownloadedVersions["%s"]=[];
 			}
 			DownloadedVersions["%s"].push("%s");
-			`,
+		`,
 		gamePaths[len(gamePaths)-2],
 		gamePaths[len(gamePaths)-2],
 		gamePaths[len(gamePaths)-2],
@@ -125,6 +126,11 @@ func Play(folder string) {
 	app.Run()
 
 	webview.SetBounds(lorca.Bounds{WindowState: lorca.WindowStateNormal})
+}
+
+func Delete(project string, version string) {
+	path := path.Join(downloadsFolder, project, version)
+	os.RemoveAll(path)
 }
 
 func DownloadMetadata() []byte {

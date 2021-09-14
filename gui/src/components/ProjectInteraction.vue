@@ -33,12 +33,38 @@
                 <h2 class="absolute left-1/2 shadow-lg text transform -translate-x-1/2 text-secondary font-bold textOutline">{{ GameDownloadPercent }}%</h2>
             </div>
         </div>
+        <button
+            v-if="buttonText == 'Play'"
+            title="Uninstall Project"
+            class="
+                transition
+                duration-300
+                right-0
+                absolute
+                transform
+                bg-tertiary
+                text-primary-light
+                shadow-xl
+                hover:bg-secondary
+                -translate-x-1/2
+                translate-y-2
+                hover:text-primary-light
+                rounded-lg
+                w-6
+                icons
+            "
+            @click="DeleteClicked"
+            ref="uninstallButton"
+        >
+            delete_outline
+        </button>
     </div>
 </template>
 
 <script setup>
 import { onMounted, ref, watch } from "@vue/runtime-core";
 
+const emit = defineEmits(["selectedVersionChanged", "deletePopup"]);
 const props = defineProps({ CurrentGame: Object });
 
 const GameDownloadPercent = ref(0);
@@ -75,7 +101,16 @@ watch(
     },
 );
 
+const DeleteClicked = () => {
+    emit("deletePopup", deletionConfirmed);
+};
+
+function deletionConfirmed() {
+    buttonText.value = "Download";
+}
+
 function UpdateButtonState() {
+    emit("selectedVersionChanged", selectedVersion.value);
     buttonText.value = "Download";
     if (DownloadedVersions[props.CurrentGame.Name] != null) {
         if (DownloadedVersions[props.CurrentGame.Name].includes(selectedVersion.value)) {

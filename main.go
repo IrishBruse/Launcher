@@ -123,6 +123,7 @@ func Play(folder string) {
 	webview.SetBounds(lorca.Bounds{WindowState: lorca.WindowStateMinimized})
 
 	app := exec.Command(executables[0])
+	app.Dir = path.Join(downloadsFolder, folder)
 	app.Run()
 
 	webview.SetBounds(lorca.Bounds{WindowState: lorca.WindowStateNormal})

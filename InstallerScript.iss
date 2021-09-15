@@ -10,17 +10,18 @@ AppVersion=1.0
 WizardStyle=modern
 SetupIconFile=Icon.ico
 DefaultDirName={autopf}\IrishBruse Launcher
+OutputBaseFilename="Launcher Installer"
 ; Since no icons will be created in "{group}", we don't need the wizard
 ; to ask for a Start Menu folder name:
 DisableProgramGroupPage=yes
-UninstallDisplayIcon={app}\IrishBruse Launcher.exe
+UninstallDisplayIcon={app}\Launcher.exe
 Compression=lzma2
 
 SolidCompression=yes
-OutputDir=userdocs:Inno Setup Examples Output
+OutputDir=./Build/
 
 [Files]
-Source: "IrishBruse Launcher.exe"; DestDir: "{app}"
+Source: "Launcher.exe"; DestDir: "{app}"
 
 [Icons]
-Name: "{autoprograms}\IrishBruse Launcher"; Filename: "{app}\IrishBruse Launcher.exe"
+Name: "{autoprograms}\IrishBruse Launcher"; Filename: "{app}\Launcher.exe"

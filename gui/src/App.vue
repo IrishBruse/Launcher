@@ -13,13 +13,13 @@
     <div class="absolute w-screen h-screen bg-primary transition duration-200" ref="LoadingScreen">
         <div class="flex justify-center h-full">
             <h1 class="justify-start self-center px-2 text-4xl">Loading</h1>
-            <div class="w-16 h-16 self-center">
-                <h2 class="absolute icons text-6xl text-tertiary clipLoadingCircle animate-spin">circle</h2>
+            <div class="w-16 h-16 self-center animate-spin">
+                <img :src="require('@/Semicircle.png')" >
             </div>
         </div>
     </div>
 
-    <div class="absolute shadow-md px-12 py-2 rounded-md bg-primary-light left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 Hidden" id="modal">
+    <div class="absolute shadow-md px-12 py-2 rounded-md bg-primary-light left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 hidden" id="modal">
         <h1 class="mx-auto my-4">Confirm Deletion?</h1>
         <div class="flex justify-between">
             <button class="rounded-md p-1 font-semibold text-primary bg-delete hover:bg-delete-hover" @click="Confirm()">Delete</button>
@@ -49,7 +49,7 @@ const selectedVersionChanged = (version) => {
 };
 
 const deletePopup = (deletionConfirmed) => {
-    document.getElementById("modal").classList.remove("Hidden");
+    document.getElementById("modal").classList.remove("hidden");
 
     deletionConfirmedCallback = deletionConfirmed;
 };
@@ -61,11 +61,11 @@ const changeProject = (projectName, projectVersions) => {
 };
 
 const Cancel = () => {
-    document.getElementById("modal").classList.toggle("Hidden");
+    document.getElementById("modal").classList.toggle("hidden");
 };
 
 const Confirm = () => {
-    document.getElementById("modal").classList.toggle("Hidden");
+    document.getElementById("modal").classList.toggle("hidden");
     removeItemOnce(DownloadedVersions[currentGame.value.Name], selectedVersion.value);
     deletionConfirmedCallback();
     Delete(currentGame.value.Name, selectedVersion.value);
@@ -90,22 +90,12 @@ onMounted(() => {
     window.addEventListener("DownloadMetadataEvent", () => {
         finishedLoading.value = true;
         setTimeout(() => {
-            LoadingScreen.value.classList.add("Hidden");
+            LoadingScreen.value.classList.add("opacity-0");
             setTimeout(() => {
-                LoadingScreen.value.classList.add("Disabled");
-                LoadingScreen.value.classList.remove("Hidden");
+                LoadingScreen.value.classList.add("hidden");
+                LoadingScreen.value.classList.remove("opacity-0");
             }, 300);
         }, 3000);
     });
 });
 </script>
-
-<style>
-.Hidden {
-    @apply opacity-0;
-}
-
-.Disabled {
-    @apply hidden;
-}
-</style>

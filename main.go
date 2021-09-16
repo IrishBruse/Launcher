@@ -112,6 +112,9 @@ func Download(file string) {
 		gamePaths[len(gamePaths)-2],
 		gamePaths[len(gamePaths)-1],
 	))
+
+	webview.Eval(fmt.Sprintf("DownloadProgress=%.2f", 100.0))
+	webview.Eval("window.dispatchEvent(DownloadProgressEvent)")
 }
 
 func Play(folder string) {

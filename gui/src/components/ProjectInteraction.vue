@@ -35,7 +35,7 @@
         </div>
         <button
             v-if="buttonText == 'Play'"
-            title="Uninstall Project"
+            title="Uninstall Version"
             class="
                 transition
                 duration-300
@@ -142,11 +142,11 @@ onMounted(() => {
         progressBarFill.value.style.width = DownloadProgress + "%";
 
         if (DownloadProgress == 100) {
-            buttonText.value = "Play";
-            ToggleButton();
             setTimeout(() => {
+                buttonText.value = "Play";
+                ToggleButton();
                 progressBarFill.value.style.width = 0 + "%";
-            }, 200);
+            }, 500);
         }
     });
 });

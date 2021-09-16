@@ -3,6 +3,7 @@
     <div class="max-w-56 bg-primary-light" ref="list">
         <button v-for="(project, i) in projectsData" :key="project.Name" class="gameSelect" @click="changeProject(i, project)">
             <img
+                v-show="project.IconURL"
                 :src="project.IconURL"
                 class="h-full bg-secondary transition-all duration-300 rounded-3xl border-white border-2 border-solid group-hover:rounded-xl"
             />

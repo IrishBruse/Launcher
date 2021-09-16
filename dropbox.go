@@ -115,12 +115,12 @@ func downloadFromUrl(url string) error {
 		Reader: reader,
 		Size:   int64(res.Size),
 		DrawFunc: ioprogress.DrawTerminalf(os.Stderr, func(i1, i2 int64) string {
-			percent := float32(i1) / float32(i2) * 100.0
+			percent := float32(i1) / float32(i2) * 95.0
 
 			webview.Eval(fmt.Sprintf("DownloadProgress=%.2f", percent))
 			webview.Eval("window.dispatchEvent(DownloadProgressEvent)")
 
-			return fmt.Sprintf("%f/%f", percent, 100.0)
+			return ""
 		}),
 	}
 

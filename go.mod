@@ -1,17 +1,37 @@
-module github.com/IrishBruse/Launcher
+module changeme
 
 go 1.17
 
-require (
-	github.com/dropbox/dropbox-sdk-go-unofficial/v6 v6.0.2
-	github.com/zserge/lorca v0.1.10
-)
+require github.com/wailsapp/wails/v2 v2.0.0-beta.28
 
 require (
-	github.com/golang/protobuf v1.5.2 // indirect
-	github.com/mitchellh/ioprogress v0.0.0-20180201004757-6a23b12fa88e
-	golang.org/x/net v0.0.0-20210903162142-ad29c8ab022f // indirect
-	golang.org/x/oauth2 v0.0.0-20210819190943-2bc19b11175f // indirect
-	google.golang.org/appengine v1.6.7 // indirect
-	google.golang.org/protobuf v1.27.1 // indirect
+	github.com/andybalholm/brotli v1.0.2 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/fasthttp/websocket v0.0.0-20200320073529-1554a54587ab // indirect
+	github.com/gabriel-vasile/mimetype v1.3.1 // indirect
+	github.com/go-ole/go-ole v1.2.6 // indirect
+	github.com/gofiber/fiber/v2 v2.17.0 // indirect
+	github.com/gofiber/websocket/v2 v2.0.8 // indirect
+	github.com/google/uuid v1.1.2 // indirect
+	github.com/imdario/mergo v0.3.12 // indirect
+	github.com/jchv/go-winloader v0.0.0-20210711035445-715c2860da7e // indirect
+	github.com/klauspost/compress v1.12.2 // indirect
+	github.com/leaanthony/go-ansi-parser v1.0.1 // indirect
+	github.com/leaanthony/go-common-file-dialog v1.0.3 // indirect
+	github.com/leaanthony/go-webview2 v1.0.2 // indirect
+	github.com/leaanthony/gosod v1.0.3 // indirect
+	github.com/leaanthony/slicer v1.5.0 // indirect
+	github.com/leaanthony/typescriptify-golang-structs v0.1.7 // indirect
+	github.com/leaanthony/winc v0.0.0-20220112092814-1608a1744133 // indirect
+	github.com/pkg/browser v0.0.0-20210706143420-7d21f8c997e2 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
+	github.com/savsgio/gotils v0.0.0-20200117113501-90175b0fbe3f // indirect
+	github.com/tkrajina/go-reflector v0.5.5 // indirect
+	github.com/valyala/bytebufferpool v1.0.0 // indirect
+	github.com/valyala/fasthttp v1.28.0 // indirect
+	github.com/valyala/tcplisten v1.0.0 // indirect
+	golang.org/x/net v0.0.0-20210510120150-4163338589ed // indirect
+	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e // indirect
 )
+
+// replace github.com/wailsapp/wails/v2 v2.0.0-beta.28 => C:\Go\pkg\mod\github.com\wailsapp\wails\v2@v2.0.0-beta.28

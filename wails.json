@@ -1,0 +1,21 @@
+{
+    "name": "launcher",
+    "frontend:build": "npm run build",
+    "frontend:install": "npm i",
+    "frontend:dev": "npm run build",
+    "assetdir": "frontend/dist",
+    "wailsjsdir": "./frontend/",
+    "version": "2",
+    "Path": "",
+    "BuildDir": "frontend/src/",
+    "outputfilename": "launcher.exe",
+    "OutputType": "",
+    "Platform": "",
+    "Author": {
+        "name": "IrishBruse",
+        "email": "Econn50@outlook.com"
+    },
+    "debounceMS": 100,
+    "devserverurl": "http://localhost:34115",
+    "appargs": ""
+}

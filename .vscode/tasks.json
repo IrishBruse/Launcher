@@ -2,14 +2,31 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "build",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "command": "go",
+            "args": [
+                "build",
+                "-tags",
+                "dev",
+                "-gcflags",
+                "all=-N -l",
+                "-o",
+                "build/bin/launcher.exe"
+            ]
+        },
+        {
             "type": "npm",
-            "script": "serve",
-            "path": "gui/",
+            "script": "dev",
+            "path": "frontend/",
             "problemMatcher": [
-                "$jshint"
+                "$gulp-tsc"
             ],
-            "label": "npm: serve - gui",
-            "detail": "vue-cli-service serve"
+            "label": "npm: dev - frontend",
+            "detail": "watch \"npm run build\" ./src"
         }
     ]
 }

@@ -1,1 +1,36 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --dark:   #191d1f;
+    --normal: #1e2224;
+    --light:  #23272a;
+    --hover:  #272b2f;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+
+    color: white;
+    font-family: "Open Sans", "sans-serif";
+}
+
+body {
+    background-color: var(--normal);
+}
+
+.background-dark{
+    background-color: var(--dark);
+}
+
+
+.background-light{
+    background-color: var(--light);
+}
+
+.h-full{
+    height: 100%;
+}
+
+.w-full{
+    width: 100%;
+}

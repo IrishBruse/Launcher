@@ -1,0 +1,18 @@
+.layout{
+    display: grid;
+    grid-template-columns: 10% auto;
+    grid-template-rows: 4rem auto 6rem;
+
+    width: 100vw;
+    height: 100vh;
+
+    position: relative;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.game-title{
+    margin-top: 1rem;
+}

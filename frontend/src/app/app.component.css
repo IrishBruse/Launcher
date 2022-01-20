@@ -16,3 +16,30 @@
 .game-title{
     margin-top: 1rem;
 }
+
+.game-button:hover {
+background-color: rgb(5, 170, 5);
+cursor: pointer;
+}
+
+    .game-button{
+    background-color: green;
+    border-radius: 2rem;
+    font-size: x-large;
+
+    align-self: center;
+
+    transform: translateY(-3rem);
+
+    padding: 0.5rem 2rem;
+    border: 0;
+}
+
+.flex{
+    display: flex;
+    justify-content: center;
+}
+
+.relative{
+    position: relative;
+}

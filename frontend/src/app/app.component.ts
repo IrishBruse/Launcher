@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
     tests!: any[];
+    buttonText: string = "Download";
 
     ngOnInit(): void {
         this.tests = [{ name: "test" }, { name: "b" }, { name: "c" }];

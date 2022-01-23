@@ -56,5 +56,6 @@ export class AppComponent implements OnInit {
     }
 
     appInteract() {
+        // window.wails
     }
 }

@@ -1,10 +1,10 @@
 {
     "name": "launcher",
-    "assetdir": "frontend/dist",
+    "assetdir": "./frontend/dist/",
     "frontend:build": "npm run build",
     "frontend:install": "npm i",
     "frontend:dev": "",
-    "wailsjsdir": "./frontend",
+    "wailsjsdir": "./frontend/src",
     "version": "2",
     "Path": "",
     "BuildDir": "",

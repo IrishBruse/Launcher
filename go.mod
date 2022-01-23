@@ -2,7 +2,7 @@ module changeme
 
 go 1.17
 
-require github.com/wailsapp/wails/v2 v2.0.0-beta.28
+require github.com/wailsapp/wails/v2 v2.0.0-beta.29
 
 require (
 	github.com/andybalholm/brotli v1.0.2 // indirect
@@ -22,7 +22,7 @@ require (
 	github.com/leaanthony/gosod v1.0.3 // indirect
 	github.com/leaanthony/slicer v1.5.0 // indirect
 	github.com/leaanthony/typescriptify-golang-structs v0.1.7 // indirect
-	github.com/leaanthony/winc v0.0.0-20220112092814-1608a1744133 // indirect
+	github.com/leaanthony/winc v0.0.0-20220117090042-fdd739b32c58 // indirect
 	github.com/pkg/browser v0.0.0-20210706143420-7d21f8c997e2 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/savsgio/gotils v0.0.0-20200117113501-90175b0fbe3f // indirect
@@ -31,7 +31,7 @@ require (
 	github.com/valyala/fasthttp v1.28.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	golang.org/x/net v0.0.0-20210510120150-4163338589ed // indirect
-	golang.org/x/sys v0.0.0-20211216021012-1d35b9e2eb4e // indirect
+	golang.org/x/sys v0.0.0-20220114195835-da31bd327af9 // indirect
 )
 
 // replace github.com/wailsapp/wails/v2 v2.0.0-beta.28 => C:\Go\pkg\mod\github.com\wailsapp\wails\v2@v2.0.0-beta.28

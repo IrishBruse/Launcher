@@ -1,7 +1,12 @@
 <div class="background-light h-full">
     <ol>
-        <li>A</li>
-        <li>B</li>
-        <li>C</li>
+        <button
+            *ngFor="let app of apps"
+            (click)="selectApp($event)"
+            class="flex w-full app-button"
+        >
+            <img src="../../assets/bin.png" alt="" />
+            <h3 class="flex-v-center">{{ app.name }}</h3>
+        </button>
     </ol>
 </div>

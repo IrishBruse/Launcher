@@ -4,27 +4,44 @@
     </div>
 
     <div class="background-dark">
-        <h2 class="text-center game-title">Hyper Hop</h2>
+        <h2 class="text-center game-title">{{ currentProject }}</h2>
     </div>
 
-    <game-list></game-list>
+    <game-list [apps]="apps"></game-list>
 
-    <game-preview project="HyperHop"></game-preview>
+    <game-preview [project]="currentProject"></game-preview>
 
-    <div class="background-dark">
-        <div class="justify-start self-center px-8">
-            <label class="mr-2"> Version: </label>
+    <div class="background-dark flex justify-center">
+        <label class="mr-2 flex-v-center"> <h3>Version:</h3> </label>
+        <select class="version-button flex-v-center" title="version">
+            <option *ngFor="let version of getVersions()">
+                {{ version }}
+            </option>
+        </select>
+    </div>
 
-            <select title="version"
-                class="transition duration-300 cursor-pointer bg-primary hover:bg-primary-hover h-8 px-2 outline-none rounded-md">
-                <option *ngFor="let test of tests">
-                    {{ test.name }}
-                </option>
-            </select>
+    <div class="background-dark flex justify-center">
+        <button
+            [title]="buttonText"
+            (click)="appInteract()"
+            class="game-button"
+        >
+            {{ buttonText }}
+        </button>
+
+        <button class="delete-button flex-v-center" (click)="modalOpen()">
+            <img src="/assets/bin.png" alt="bin" />
+        </button>
+    </div>
+</div>
+
+<div id="popup" class="shadow modal-closed">
+    <div class="modal">
+        <h4 class="text-center">Are you sure you want to delete version ?</h4>
+
+        <div class="flex justify-center">
+            <button class="red" (click)="modalDelete()">Delete</button>
+            <button class="green" (click)="modalClose()">Cancel</button>
         </div>
-    </div>
-
-    <div class="background-dark flex">
-        <button title="Interact" class="game-button"> {{buttonText}} </button>
     </div>
 </div>

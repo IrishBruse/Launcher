@@ -12,6 +12,13 @@ const go = {
       "Greet": (arg1) => {
         return window.go.main.App.Greet(arg1);
       },
+      /**
+       * ShowDialog
+       * @returns {Promise<void>} 
+       */
+      "ShowDialog": () => {
+        return window.go.main.App.ShowDialog();
+      },
     },
   },
 

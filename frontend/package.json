@@ -4,8 +4,8 @@
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
-        "build": "ng build",
-        "watch": "ng build --watch --configuration development",
+        "build": "ng build --configuration production --output-hashing none",
+        "watch": "ng build --watch --configuration development --delete-output-path false --output-hashing none",
         "test": "ng test"
     },
     "private": true,

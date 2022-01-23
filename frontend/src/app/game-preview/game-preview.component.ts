@@ -1,5 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl, } from '@angular/platform-browser';
+import { Component, OnInit, ChangeDetectionStrategy, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
     selector: 'game-preview',
@@ -7,17 +6,28 @@ import { DomSanitizer, SafeResourceUrl, } from '@angular/platform-browser';
     styleUrls: ['./game-preview.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GamePreviewComponent implements OnInit {
+export class GamePreviewComponent implements OnInit, OnChanges {
 
     @Input()
-    project!: string;
+    project: string = "";
+    url: string = "";
 
-    url!: SafeResourceUrl;
+    constructor() { }
 
-    constructor(public sanitizer: DomSanitizer) { }
+    ngOnChanges(): void {
+        this.updateIframe();
+    }
 
     ngOnInit(): void {
-        this.url = this.sanitizer.bypassSecurityTrustResourceUrl('https://www.ethanconneely.com/projects/' + this.project + '/?launcher=true')
+        this.updateIframe();
+    }
+
+    updateIframe() {
+        // This is unsafe but DomSanitizer wasnt working and this is a local app so it shouldnt matter
+        const iframe = document.getElementById('game-preview-iframe') as HTMLIFrameElement;
+        if (iframe.contentWindow != null) {
+            iframe.contentWindow.location.replace('https://www.ethanconneely.com/projects/' + this.project + '/?launcher=true');
+        }
     }
 
 }

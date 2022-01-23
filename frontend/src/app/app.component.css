@@ -1,7 +1,7 @@
-.layout{
+.layout {
     display: grid;
-    grid-template-columns: 10% auto;
-    grid-template-rows: 4rem auto 6rem;
+    grid-template-columns: 14rem auto;
+    grid-template-rows: 4rem auto 4rem;
 
     width: 100vw;
     height: 100vh;
@@ -9,37 +9,133 @@
     position: relative;
 }
 
-.text-center{
+.text-center {
     text-align: center;
 }
 
-.game-title{
+.game-title {
     margin-top: 1rem;
 }
 
 .game-button:hover {
-background-color: rgb(5, 170, 5);
-cursor: pointer;
+    background-color: white;
+    cursor: pointer;
 }
 
-    .game-button{
-    background-color: green;
+.game-button {
+    background-color: var(--main);
     border-radius: 2rem;
     font-size: x-large;
 
+    transition: 0.25s ease-in-out;
+
     align-self: center;
 
-    transform: translateY(-3rem);
+    color: var(--light);
+    font-weight: bolder;
+
+    transform: translateY(-2rem);
 
     padding: 0.5rem 2rem;
     border: 0;
 }
 
-.flex{
-    display: flex;
-    justify-content: center;
+.relative {
+    position: relative;
 }
 
-.relative{
-    position: relative;
+.version-button:hover {
+    background-color: var(--light);
+}
+.version-button {
+    transition: 0.3s;
+    cursor: pointer;
+    background-color: var(--normal);
+    outline: 0;
+    border: 0;
+    font-size: large;
+    padding: 0.5rem;
+    margin: 1rem;
+    border-radius: 0.5rem;
+}
+
+.delete-button > img {
+    height: 2rem;
+}
+
+.delete-button {
+    background-color: var(--main);
+    border-radius: 0.5rem;
+    color: var(--light);
+    outline: 0;
+    transition: 0.25s linear;
+    border: 0;
+    right: 1rem;
+    position: absolute;
+}
+
+.delete-button:hover {
+    background-color: white;
+    cursor: pointer;
+}
+
+.shadow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+
+    opacity: 1;
+    transition: 0.5s;
+
+    background-color: #00000077;
+}
+.modal {
+    position: absolute;
+
+    width: 12rem;
+    height: 6rem;
+
+    left: 50vw;
+    top: 50vh;
+
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+
+    transform: translateX(-50%) translateY(-50%);
+
+    opacity: 1;
+    transition: 0.5s;
+
+    background-color: var(--dark);
+}
+
+.modal button {
+    border-radius: 0.5rem;
+    outline: 0;
+    border: 0;
+    transition: 0.3s all;
+    color: var(--dark);
+    padding: 0.5rem;
+    margin: 1rem;
+    cursor: pointer;
+    font-weight: bolder;
+}
+
+.modal button:hover {
+    background-color: white;
+}
+
+.red {
+    background-color: var(--red);
+}
+
+.green {
+    background-color: var(--main);
+}
+
+.modal-closed {
+    pointer-events: none;
+    opacity: 0;
 }

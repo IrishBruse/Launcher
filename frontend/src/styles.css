@@ -1,9 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 :root {
-    --dark:   #191d1f;
+    --dark: #191d1f;
     --normal: #1e2224;
-    --light:  #23272a;
-    --hover:  #272b2f;
+    --light: #23272a;
+    --lighter: hsl(206, 9%, 20%);
+    --hover: #272b2f;
+    --main: #86c332;
+    --main-hover: #557d1c;
+    --red: #ff4136;
 }
 
 * {
@@ -16,21 +20,33 @@
 
 body {
     background-color: var(--normal);
+    overflow: hidden;
 }
 
-.background-dark{
+.background-dark {
     background-color: var(--dark);
 }
 
-
-.background-light{
+.background-light {
     background-color: var(--light);
 }
 
-.h-full{
+.h-full {
     height: 100%;
 }
 
-.w-full{
+.w-full {
     width: 100%;
+}
+
+.flex {
+    display: flex;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.flex-v-center {
+    align-self: center;
 }

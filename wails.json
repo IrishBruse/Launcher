@@ -1,7 +1,7 @@
 {
     "name": "launcher",
     "assetdir": "./frontend/dist/",
-    "frontend:build": "npm run build",
+    "frontend:build": "",
     "frontend:install": "npm i",
     "frontend:dev": "",
     "wailsjsdir": "./frontend/src",
@@ -15,7 +15,7 @@
         "name": "IrishBruse",
         "email": "Econn50@outlook.com"
     },
-    "debounceMS": 100,
+    "debounceMS": 2000,
     "devserverurl": "http://localhost:34115",
     "appargs": ""
 }

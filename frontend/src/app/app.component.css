@@ -139,3 +139,34 @@
     pointer-events: none;
     opacity: 0;
 }
+.app-button {
+    background-color: var(--light);
+    border-radius: 0;
+    outline: 0;
+    border: 0;
+
+    transition: 0.2s background-color;
+
+    cursor: pointer;
+}
+
+.app-button:hover {
+    background-color: var(--lighter);
+}
+
+.current > .app-icon,
+.app-button:hover > .app-icon {
+    border-radius: 0.75rem;
+}
+
+.app-icon {
+    height: 3rem;
+    margin: 0.5rem 0.5rem;
+    background-color: white;
+    border-radius: 2rem;
+    transition: 0.3s border-radius;
+}
+
+.current {
+    background-color: var(--lighter);
+}

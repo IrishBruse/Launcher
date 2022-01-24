@@ -27,19 +27,6 @@
             ],
             "label": "npm: dev - frontend",
             "detail": "watch \"npm run build\" ./src"
-        },
-        {
-            "label": "dev",
-            "command": [
-                "wails"
-            ],
-            "args": [
-                "dev"
-            ],
-            "type": "process",
-            "problemMatcher": [
-                "$msCompile"
-            ]
         }
     ]
 }

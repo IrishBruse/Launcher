@@ -7,9 +7,21 @@
         <h2 class="text-center game-title">{{ currentProject }}</h2>
     </div>
 
-    <game-list [apps]="apps"></game-list>
+    <div class="background-light h-full">
+        <ol>
+            <button
+                *ngFor="let app of apps"
+                (click)="selectApp($event, app)"
+                class="flex w-full app-button"
+            >
+                <img [src]="app.iconUrl" alt="" class="app-icon" />
+                <h3 class="flex-v-center">{{ app.name }}</h3>
+            </button>
+        </ol>
+    </div>
 
-    <game-preview [project]="currentProject"></game-preview>
+    <iframe id="game-preview-iframe" class="w-full h-full" frameborder="0">
+    </iframe>
 
     <div class="background-dark flex justify-center">
         <label class="mr-2 flex-v-center"> <h3>Version:</h3> </label>

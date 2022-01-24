@@ -1,16 +1,15 @@
-interface go {
-    "main": {
-        "App": {
-            Greet(arg1: string): Promise<string>
-            ShowDialog(): Promise<void>
-            Test(arg1: string): Promise<string>
-        },
-    }
+export interface go {
+  "main": {
+    "LauncherApp": {
+		GetApps():Promise<Array<App>>
+		Greet(arg1:string):Promise<string>
+    },
+  }
 
 }
 
 declare global {
-    interface Window {
-        go: go;
-    }
+	interface Window {
+		go: go;
+	}
 }

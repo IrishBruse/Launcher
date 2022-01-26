@@ -1,5 +1,5 @@
+import { App } from 'src/app/App';
 import { Component, OnInit } from '@angular/core';
-import { App } from './App';
 
 @Component({
     selector: 'app-root',
@@ -15,14 +15,14 @@ export class AppComponent implements OnInit {
     constructor() { }
 
     ngOnInit(): void {
+        window.go.main.Launcher.GetApps().then((apps) => {
+            apps.forEach((app: any) => {
+                console.log(app.iconUrl);
+            });
+        })
 
-        // window.go.main.App.GetAppIcons().then(
-        //     (icons) => {
-        //         icons.forEach(icon => {
-        //             console.log(icon);
-        //         });
-        //     }
-        // )
+        console.log("test2");
+
 
         this.apps = [
             {

@@ -2,14 +2,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Wails: Debug launcher",
+            "name": "Attach to Process",
             "type": "go",
-            "request": "launch",
-            "mode": "exec",
-            "program": "${workspaceFolder}/build/bin/launcher.exe",
+            "request": "attach",
             "preLaunchTask": "build",
-            "cwd": "${workspaceFolder}",
-            "env": {}
+            "mode": "local",
+            "processId": 0
         }
     ]
 }

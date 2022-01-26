@@ -7,26 +7,11 @@
             "options": {
                 "cwd": "${workspaceFolder}"
             },
-            "command": "go",
+            "command": "wails",
             "args": [
-                "build",
-                "-tags",
-                "dev",
-                "-gcflags",
-                "all=-N -l",
-                "-o",
-                "build/bin/launcher.exe"
-            ]
-        },
-        {
-            "type": "npm",
-            "script": "dev",
-            "path": "frontend/",
-            "problemMatcher": [
-                "$gulp-tsc"
+                "dev"
             ],
-            "label": "npm: dev - frontend",
-            "detail": "watch \"npm run build\" ./src"
+            "problemMatcher": "$go"
         }
     ]
 }

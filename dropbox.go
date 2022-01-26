@@ -10,7 +10,9 @@ import (
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
-const dropboxToken = "QlRKNBt3LrAAAAAAAAAAAYGRoKPZifW23TNCZyY0-nu5gdAjk606zBbxGtMHEVVr"
+const dropboxTokenA = "8TduvHwqR_0AAAAAAAAAAdAZ72VyHDLp"
+const dropboxTokenB = "PvmI6Ba4YOJdMVUL_FHf85hQyU9FXFle"
+const dropboxToken = dropboxTokenA + dropboxTokenB
 
 // App is an app entry on dropbox
 type App struct {
@@ -19,19 +21,21 @@ type App struct {
 	versions []string
 }
 
-func dropboxFetchIcons(ctx context.Context) []App {
+var dbx files.Client
 
-	apps := make([]App, 0)
-
+func dbxinit() {
 	config := dropbox.Config{
 		Token:    dropboxToken,
 		LogLevel: dropbox.LogDebug,
 	}
-	dbx := files.New(config)
+	dbx = files.New(config)
+}
 
-	test := files.NewSearchV2Arg("*/*icon.png")
+func dropboxFetchIcons(ctx context.Context) []string {
 
-	res, err := dbx.SearchV2(test)
+	arg := files.NewSearchV2Arg("*/*icon.png")
+
+	res, err := dbx.SearchV2(arg)
 
 	if err != nil {
 		runtime.MessageDialog(ctx, runtime.MessageDialogOptions{
@@ -49,7 +53,15 @@ func dropboxFetchIcons(ctx context.Context) []App {
 		runtime.LogInfo(ctx, v)
 	}
 
-	return apps
+	return iconUrls
+}
+
+func dropboxGetApps() []string {
+	// arg := files.NewListFolderArg("*/*icon.png")
+
+	// res, err := dbx.SearchV2(arg)
+
+	return nil
 }
 
 // getIcons

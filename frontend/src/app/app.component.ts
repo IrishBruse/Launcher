@@ -1,13 +1,14 @@
-import { App } from 'src/app/App';
-import { Component, OnInit } from '@angular/core';
+import { ListItem } from 'src/app/App';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+    styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-    apps!: App[];
+    public appsBinding: Iterable<any> = [];
+    apps!: ListItem[];
     buttonText: string = "Download";
     currentProject: string = "Monoboy";
     url: string = "";
@@ -15,34 +16,15 @@ export class AppComponent implements OnInit {
     constructor() { }
 
     ngOnInit(): void {
-        window.go.main.Launcher.GetApps().then((apps) => {
-            apps.forEach((app: any) => {
-                console.log(app.iconUrl);
-            });
-        })
-
-        console.log("test2");
-
-
-        this.apps = [
-            {
-                name: "test",
-                iconUrl: "https://ucf2f66ac0d8f061d8d9cb8de8fe.dl.dropboxusercontent.com/cd/0/get/BeWsTrdaw-EWNBt5bEb9S8X-L4xHMcJvOKfaGRPMrfxag1cuIpCPEHVREQesh_o2LTnTF41JQXMAkN1jgF2JdcPqiTU9VsD3_aTLOVmgzGev5fSxMzOBxVq5w8XErS3jjWAM3X5KJHusyJQJWw8ImdGH/file",
-                versions: ["0.1.0", "0.2.0", "0.3.0"]
-            },
-            {
-                name: "Monoboy",
-                iconUrl: "https://ucf2f66ac0d8f061d8d9cb8de8fe.dl.dropboxusercontent.com/cd/0/get/BeWsTrdaw-EWNBt5bEb9S8X-L4xHMcJvOKfaGRPMrfxag1cuIpCPEHVREQesh_o2LTnTF41JQXMAkN1jgF2JdcPqiTU9VsD3_aTLOVmgzGev5fSxMzOBxVq5w8XErS3jjWAM3X5KJHusyJQJWw8ImdGH/file",
-                versions: ["0.1.0", "0.2.0", "0.3.0", "0.4.0"]
-            },
-            {
-                name: "Top Down Shooter",
-                iconUrl: "https://ucf2f66ac0d8f061d8d9cb8de8fe.dl.dropboxusercontent.com/cd/0/get/BeWsTrdaw-EWNBt5bEb9S8X-L4xHMcJvOKfaGRPMrfxag1cuIpCPEHVREQesh_o2LTnTF41JQXMAkN1jgF2JdcPqiTU9VsD3_aTLOVmgzGev5fSxMzOBxVq5w8XErS3jjWAM3X5KJHusyJQJWw8ImdGH/file",
-                versions: ["0.1.0", "0.2.0"]
+        window.go.main.Launcher.GetApps().then(
+            (apps) => {
+                this.apps = JSON.parse(apps);
+                // console.log(this.apps);
+                this.appsBinding = this.apps;
             }
-        ]
-        this.updateIframe();
+        )
 
+        this.updateIframe();
     }
 
     updateIframe() {
@@ -54,11 +36,14 @@ export class AppComponent implements OnInit {
     }
 
     getVersions(): string[] {
-        let t = this.apps.find((a) => a.name == this.currentProject)?.versions;
-        if (t === undefined) {
-            return ["ERROR"];
-        }
-        return t;
+        // if (this.apps !== undefined) {
+        //     let t = this.apps.find((a) => a.name == this.currentProject)?.versions;
+        //     if (t === undefined) {
+        //         return ["ERROR"];
+        //     }
+        //     return t;
+        // }
+        return ["ERROR"];
     }
 
     modalClose() {
@@ -83,7 +68,7 @@ export class AppComponent implements OnInit {
     }
 
     // GameListComponent
-    selectApp(event: Event, app: App) {
+    selectApp(event: Event, app: ListItem) {
         let node = (event.target as HTMLElement);
 
         if (node.nodeName !== "BUTTON") {

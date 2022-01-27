@@ -6,7 +6,7 @@ const go = {
     "Launcher": {
       /**
        * GetApps
-       * @returns {Promise<Array<App>>}  - Go Type: []main.App
+       * @returns {Promise<string>}  - Go Type: string
        */
       "GetApps": () => {
         return window.go.main.Launcher.GetApps();

@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"sync"
 
@@ -39,39 +40,47 @@ func (b *Launcher) Greet(name string) string {
 }
 
 // GetApps returns an array of icon urls from dropbox
-func (b *Launcher) GetApps() []App {
-	runtime.LogDebug(b.ctx, "test")
-	apps := make([]App, 0)
+func (b *Launcher) GetApps() string {
+	apps := make([]App, 0, 10)
 
 	var wg sync.WaitGroup
 
-	var links []string
-
 	dbxinit()
 
+	appNames := dropboxGetApps(b.ctx)
+
+	for i := 0; i < len(appNames); i++ {
+		apps = append(apps, App{Name: appNames[i]})
+	}
+
 	wg.Add(1)
 	go func() {
-		links = dropboxFetchIcons(b.ctx)
+		dropboxFetchIcons(b.ctx, apps)
 		wg.Done()
 	}()
 
 	wg.Add(1)
 	go func() {
-		links = dropboxFetchIcons(b.ctx)
-		wg.Done()
-	}()
-
-	wg.Add(1)
-	go func() {
-		links = dropboxFetchIcons(b.ctx)
+		// links = dropboxFetchIcons(b.ctx)
 		wg.Done()
 	}()
 
 	wg.Wait()
 
-	for _, v := range links {
-		runtime.LogDebug(b.ctx, "Test: "+v)
+	runtime.LogDebug(b.ctx, fmt.Sprintf("Test: %d", len(apps)))
+	for _, v := range apps {
+		runtime.LogDebug(b.ctx, fmt.Sprintf("Test: %+v", v))
 	}
 
-	return apps
+	b2, err := json.Marshal(apps)
+	if err != nil {
+		runtime.MessageDialog(b.ctx, runtime.MessageDialogOptions{
+			Type:    runtime.ErrorDialog,
+			Title:   "Dropbox (json.Marshal(apps)) Error!",
+			Message: err.Error(),
+		})
+		runtime.LogError(b.ctx, err.Error())
+	}
+
+	return string(b2)
 }

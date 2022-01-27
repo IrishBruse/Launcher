@@ -10,7 +10,7 @@
     <div class="background-light h-full">
         <ol>
             <button
-                *ngFor="let app of apps"
+                *ngFor="let app of appsBinding"
                 (click)="selectApp($event, app)"
                 class="flex w-full app-button"
             >

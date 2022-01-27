@@ -1,7 +1,7 @@
 export interface go {
   "main": {
     "Launcher": {
-		GetApps():Promise<Array<App>>
+		GetApps():Promise<string>
 		Greet(arg1:string):Promise<string>
     },
   }

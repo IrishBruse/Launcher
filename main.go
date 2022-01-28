@@ -4,8 +4,6 @@ import (
 	"embed"
 	"log"
 
-	"github.com/wailsapp/wails/v2/pkg/options/mac"
-
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/logger"
 	"github.com/wailsapp/wails/v2/pkg/options"
@@ -27,8 +25,10 @@ func main() {
 		Title:             "Launcher",
 		Width:             1280,
 		Height:            720,
-		MinWidth:          720,
-		MinHeight:         570,
+		MinWidth:          800,
+		MinHeight:         600,
+		MaxWidth:          3840,
+		MaxHeight:         2160,
 		DisableResize:     false,
 		Fullscreen:        false,
 		Frameless:         false,
@@ -48,16 +48,6 @@ func main() {
 			WebviewIsTransparent: false,
 			WindowIsTranslucent:  false,
 			DisableWindowIcon:    false,
-		},
-		Mac: &mac.Options{
-			TitleBar:             mac.TitleBarHiddenInset(),
-			WebviewIsTransparent: true,
-			WindowIsTranslucent:  true,
-			About: &mac.AboutInfo{
-				Title:   "Vanilla Template",
-				Message: "Part of the Wails projects",
-				Icon:    icon,
-			},
 		},
 	})
 

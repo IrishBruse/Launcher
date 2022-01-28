@@ -7,17 +7,15 @@
         <h2 class="text-center game-title">{{ currentProject }}</h2>
     </div>
 
-    <div class="background-light h-full">
-        <ol>
-            <button
-                *ngFor="let app of appsBinding"
-                (click)="selectApp($event, app)"
-                class="flex w-full app-button"
-            >
-                <img [src]="app.iconUrl" alt="" class="app-icon" />
-                <h3 class="flex-v-center">{{ app.name }}</h3>
-            </button>
-        </ol>
+    <div class="background-light h-full app-list">
+        <button
+            *ngFor="let app of apps"
+            (click)="selectApp($event, app)"
+            class="flex w-full app-button"
+        >
+            <img [src]="app.IconURL" alt="" class="app-icon" />
+            <h3 class="flex-v-center">{{ app.Name }}</h3>
+        </button>
     </div>
 
     <iframe id="game-preview-iframe" class="w-full h-full" frameborder="0">

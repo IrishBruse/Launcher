@@ -1,5 +1,5 @@
 export class ListItem {
-    name!: string;
-    iconUrl!: string;
-    versions!: string[];
+    Name!: string;
+    IconURL!: string;
+    Versions!: string[];
 }

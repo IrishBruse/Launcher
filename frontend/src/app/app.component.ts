@@ -1,5 +1,5 @@
 import { ListItem } from 'src/app/App';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-root',
@@ -7,7 +7,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
     styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-    public appsBinding: Iterable<any> = [];
     apps!: ListItem[];
     buttonText: string = "Download";
     currentProject: string = "Monoboy";
@@ -19,8 +18,7 @@ export class AppComponent implements OnInit {
         window.go.main.Launcher.GetApps().then(
             (apps) => {
                 this.apps = JSON.parse(apps);
-                // console.log(this.apps);
-                this.appsBinding = this.apps;
+                console.log(this.apps);
             }
         )
 
@@ -80,11 +78,11 @@ export class AppComponent implements OnInit {
         });
 
         let update = false;
-        if (this.currentProject != app.name) {
+        if (this.currentProject != app.Name) {
             update = true;
         }
 
-        this.currentProject = app.name;
+        this.currentProject = app.Name;
 
         if (update) {
             this.updateIframe();

@@ -61,16 +61,11 @@ func (b *Launcher) GetApps() string {
 
 	wg.Add(1)
 	go func() {
-		// links = dropboxFetchIcons(b.ctx)
+		dropboxFetchVersions(b.ctx, apps)
 		wg.Done()
 	}()
 
 	wg.Wait()
-
-	runtime.LogDebug(b.ctx, fmt.Sprintf("Test: %d", len(apps)))
-	for _, v := range apps {
-		runtime.LogDebug(b.ctx, fmt.Sprintf("Test: %+v", v))
-	}
 
 	b2, err := json.Marshal(apps)
 	if err != nil {

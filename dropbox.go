@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"path"
 	"strings"
 	"sync"
 
@@ -38,7 +39,7 @@ func dropboxFetchIcons(ctx context.Context, apps []App) {
 	if err != nil {
 		runtime.MessageDialog(ctx, runtime.MessageDialogOptions{
 			Type:    runtime.ErrorDialog,
-			Title:   "Dropbox (SearchV2) Error!",
+			Title:   "Dropbox (SearchV2 */*icon.png) Error!",
 			Message: err.Error(),
 		})
 		runtime.LogError(ctx, err.Error())
@@ -74,6 +75,33 @@ func dropboxFetchIcons(ctx context.Context, apps []App) {
 	}
 
 	wg.Wait()
+}
+
+func dropboxFetchVersions(ctx context.Context, apps []App) {
+	arg := files.NewSearchV2Arg("*/*.zip")
+
+	res, err := dbx.SearchV2(arg)
+	if err != nil {
+		runtime.MessageDialog(ctx, runtime.MessageDialogOptions{
+			Type:    runtime.ErrorDialog,
+			Title:   "Dropbox (SearchV2 */*.zip) Error!",
+			Message: err.Error(),
+		})
+		runtime.LogError(ctx, err.Error())
+	}
+
+	for _, v := range res.Matches {
+		switch t := v.Metadata.Metadata.(type) {
+		case *files.FileMetadata:
+			for i := 0; i < len(apps); i++ {
+				if strings.HasPrefix(t.PathDisplay[1:], apps[i].Name) {
+					file := path.Base(t.PathLower)
+					apps[i].Versions = append(apps[i].Versions, strings.TrimSuffix(file, path.Ext(file)))
+					break
+				}
+			}
+		}
+	}
 }
 
 func dropboxGetApps(ctx context.Context) []string {

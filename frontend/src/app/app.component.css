@@ -28,16 +28,52 @@
     font-size: x-large;
 
     transition: 0.25s ease-in-out;
+    transition-property: width, height, transform, font-size;
+
+    position: relative;
 
     align-self: center;
 
-    color: var(--light);
     font-weight: bolder;
+    height: 3rem;
+    width: 12rem;
 
+    overflow: hidden;
     transform: translateY(-2rem);
 
     padding: 0.5rem 2rem;
     border: 0;
+}
+
+.game-button.downloading {
+    background-color: var(--light);
+    color: var(--dark);
+    transform: translateY(0);
+    height: 2rem;
+    width: 80%;
+    font-size: small;
+}
+
+.game-button.downloading:hover {
+    cursor: default;
+}
+
+.download-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -5;
+    background-color: var(--main);
+    height: 100%;
+}
+
+.game-button.downloading > .app-button-text {
+    color: white;
+}
+
+.app-button-text {
+    order: 10;
+    color: var(--dark);
 }
 
 .relative {
@@ -92,6 +128,7 @@
 
     background-color: #00000077;
 }
+
 .modal {
     position: absolute;
 
@@ -184,12 +221,14 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--light);
+    background: var(--normal);
 }
 
 ::-webkit-scrollbar-thumb {
     background: white;
     border-radius: 1rem;
+
+    -ms-overflow-style: none;
 }
 
 ::-webkit-scrollbar-thumb:hover {

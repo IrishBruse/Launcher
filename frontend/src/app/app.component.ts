@@ -9,8 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
     apps!: ListItem[];
     buttonText: string = "Download";
-    currentProject: string = "Monoboy";
-    url: string = "";
+    currentProject: string = "HyperHop";
+    currentVersion: string = "";
+    percent: number = 10.0;
 
     constructor() { }
 
@@ -34,13 +35,13 @@ export class AppComponent implements OnInit {
     }
 
     getVersions(): string[] {
-        // if (this.apps !== undefined) {
-        //     let t = this.apps.find((a) => a.name == this.currentProject)?.versions;
-        //     if (t === undefined) {
-        //         return ["ERROR"];
-        //     }
-        //     return t;
-        // }
+        if (this.apps !== undefined) {
+            let t = this.apps.find((a) => a.Name == this.currentProject)?.Versions;
+            if (t === undefined) {
+                return ["ERROR"];
+            }
+            return t;
+        }
         return ["ERROR"];
     }
 
@@ -63,32 +64,24 @@ export class AppComponent implements OnInit {
     }
 
     appInteract() {
+        let btn = document.querySelector(".game-button")
+        btn?.classList.toggle("downloading")
+
+        let percentageText = btn?.querySelector(".app-button-text") as HTMLElement;
+        percentageText.textContent = percent + "%";
+
+        let fill = btn?.querySelector(".download-fill") as HTMLElement;
+        fill.style.width = percent + "%";
     }
 
-    // GameListComponent
-    selectApp(event: Event, app: ListItem) {
-        let node = (event.target as HTMLElement);
-
-        if (node.nodeName !== "BUTTON") {
-            node = node.parentElement as HTMLElement;
-        }
-
-        document.querySelectorAll(".app-button").forEach((e) => {
-            e.classList.remove("current")
-        });
-
-        let update = false;
+    selectApp(app: ListItem) {
         if (this.currentProject != app.Name) {
-            update = true;
-        }
-
-        this.currentProject = app.Name;
-
-        if (update) {
+            this.currentProject = app.Name;
             this.updateIframe();
         }
+    }
 
-        node.classList.toggle("current", true);
-
+    selectVersion(selectElement: any) {
+        console.log("test", selectElement);
     }
 }

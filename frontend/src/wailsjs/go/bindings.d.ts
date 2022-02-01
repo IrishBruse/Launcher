@@ -1,8 +1,8 @@
 export interface go {
   "main": {
     "Launcher": {
+		Download(arg1:string):Promise<void>
 		GetApps():Promise<string>
-		Greet(arg1:string):Promise<string>
     },
   }
 

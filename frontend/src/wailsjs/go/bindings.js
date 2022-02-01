@@ -5,19 +5,19 @@ const go = {
   "main": {
     "Launcher": {
       /**
+       * Download
+       * @param {string} arg1 - Go Type: string
+       * @returns {Promise<void>} 
+       */
+      "Download": (arg1) => {
+        return window.go.main.Launcher.Download(arg1);
+      },
+      /**
        * GetApps
        * @returns {Promise<string>}  - Go Type: string
        */
       "GetApps": () => {
         return window.go.main.Launcher.GetApps();
-      },
-      /**
-       * Greet
-       * @param {string} arg1 - Go Type: string
-       * @returns {Promise<string>}  - Go Type: string
-       */
-      "Greet": (arg1) => {
-        return window.go.main.Launcher.Greet(arg1);
       },
     },
   },

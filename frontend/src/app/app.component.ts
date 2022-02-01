@@ -23,6 +23,16 @@ export class AppComponent implements OnInit {
             }
         )
 
+        window.runtime.EventsOn("downloadProgress", (percent) => {
+            let btn = document.querySelector(".game-button")
+
+            let percentageText = btn?.querySelector(".app-button-text") as HTMLElement;
+            percentageText.textContent = percent + "%";
+
+            let fill = btn?.querySelector(".download-fill") as HTMLElement;
+            fill.style.width = percent + "%";
+        });
+
         this.updateIframe();
     }
 
@@ -67,11 +77,7 @@ export class AppComponent implements OnInit {
         let btn = document.querySelector(".game-button")
         btn?.classList.toggle("downloading")
 
-        let percentageText = btn?.querySelector(".app-button-text") as HTMLElement;
-        percentageText.textContent = percent + "%";
-
-        let fill = btn?.querySelector(".download-fill") as HTMLElement;
-        fill.style.width = percent + "%";
+        window.go.main.Launcher.Download();
     }
 
     selectApp(app: ListItem) {

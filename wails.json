@@ -1,21 +1,21 @@
 {
-    "name": "launcher",
-    "assetdir": "./frontend/dist/",
-    "frontend:build": "",
-    "frontend:install": "npm i",
-    "frontend:dev": "",
-    "wailsjsdir": "./frontend/src",
-    "version": "2",
-    "Path": "",
-    "BuildDir": "",
-    "outputfilename": "launcher.exe",
-    "OutputType": "",
-    "Platform": "",
-    "Author": {
-        "name": "IrishBruse",
-        "email": "Econn50@outlook.com"
-    },
-    "debounceMS": 2000,
-    "devserverurl": "http://localhost:34115",
-    "appargs": ""
+  "name": "launcher",
+  "assetdir": "frontend/dist",
+  "frontend:build": "npm run build",
+  "frontend:install": "npm install",
+  "frontend:dev": "npm run watch",
+  "wailsjsdir": "./frontend/src/",
+  "version": "2",
+  "Path": "",
+  "BuildDir": "",
+  "outputfilename": "launcher.exe",
+  "OutputType": "",
+  "Platform": "",
+  "Author": {
+    "name": "IrishBruse",
+    "email": "Econn50@outlook.com"
+  },
+  "debounceMS": 100,
+  "devserverurl": "http://localhost:34115",
+  "appargs": ""
 }

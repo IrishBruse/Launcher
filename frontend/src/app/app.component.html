@@ -8,12 +8,8 @@
     </div>
 
     <div class="background-light h-full app-list">
-        <button
-            *ngFor="let app of apps"
-            (click)="selectApp(app)"
-            class="flex w-full app-button"
-            [class.current]="app.Name == currentProject"
-        >
+        <button *ngFor="let app of apps" (click)="selectApp(app)" class="flex w-full app-button"
+            [class.current]="app.Name == currentProject.Name">
             <img [src]="app.IconURL" alt="" class="app-icon" />
             <h3 class="flex-v-center">{{ app.Name }}</h3>
         </button>
@@ -23,24 +19,18 @@
     </iframe>
 
     <div class="background-dark flex justify-center">
-        <label class="mr-2 flex-v-center"> <h3>Version:</h3> </label>
-        <select
-            class="version-button flex-v-center"
-            title="version"
-            (change)="selectVersion($event)"
-        >
-            <option *ngFor="let version of getVersions()">
+        <label class="mr-2 flex-v-center">
+            <h3>Version:</h3>
+        </label>
+        <select class="version-button flex-v-center" title="version" name="version" [(ngModel)]="currentVersion">
+            <option *ngFor="let version of getVersions()" [ngValue]="version" [title]="version">
                 {{ version }}
             </option>
         </select>
     </div>
 
     <div class="background-dark flex justify-center">
-        <button
-            [title]="buttonText"
-            (click)="appInteract()"
-            class="game-button"
-        >
+        <button [title]="buttonText" (click)="appInteract()" class="game-button">
             <h3 class="app-button-text">{{ buttonText }}</h3>
             <div class="download-fill"></div>
         </button>
@@ -53,7 +43,7 @@
 
 <div id="popup" class="shadow modal-closed">
     <div class="modal">
-        <h4 class="text-center">Are you sure you want to delete version ?</h4>
+        <h4 class="text-center">Are you sure you want to delete version?</h4>
 
         <div class="flex justify-center">
             <button class="red" (click)="modalDelete()">Delete</button>

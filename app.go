@@ -45,6 +45,8 @@ func (b *Launcher) shutdown(ctx context.Context) {
 
 // Download url
 func (b *Launcher) Download(url string) {
+	runtime.LogInfo(b.ctx, "test")
+
 	config := dropbox.Config{
 		Token:    dropboxToken,
 		LogLevel: dropbox.LogDebug,
@@ -76,6 +78,7 @@ func (b *Launcher) Download(url string) {
 		Size:   int64(res.Size),
 		DrawFunc: ioprogress.DrawTerminalf(os.Stderr, func(i1, i2 int64) string {
 			percent := float32(i1) / float32(i2) * 95.0
+			runtime.LogInfo(b.ctx, "test")
 			runtime.EventsEmit(b.ctx, "downloadProgress", percent)
 			return ""
 		}),

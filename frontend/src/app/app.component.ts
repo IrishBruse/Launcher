@@ -9,9 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
     apps!: ListItem[];
     buttonText: string = "Download";
-    currentProject: string = "HyperHop";
+    currentProject!: ListItem;
     currentVersion: string = "";
-    percent: number = 10.0;
+    percent: number = 0.0;
 
     constructor() { }
 
@@ -19,19 +19,26 @@ export class AppComponent implements OnInit {
         window.go.main.Launcher.GetApps().then(
             (apps) => {
                 this.apps = JSON.parse(apps);
-                console.log(this.apps);
+                this.currentProject = this.apps[0];
             }
-        )
+        );
 
-        window.runtime.EventsOn("downloadProgress", (percent) => {
-            let btn = document.querySelector(".game-button")
 
-            let percentageText = btn?.querySelector(".app-button-text") as HTMLElement;
-            percentageText.textContent = percent + "%";
+        window.runtime.EventsOn("downloadProgress",
+            (percent) => {
+                console.log("test");
 
-            let fill = btn?.querySelector(".download-fill") as HTMLElement;
-            fill.style.width = percent + "%";
-        });
+                let btn = document.querySelector(".game-button");
+
+                window.runtime.LogDebug(percent);
+
+                let percentageText = btn?.querySelector(".app-button-text") as HTMLElement;
+                percentageText.textContent = percent + "%";
+
+                let fill = btn?.querySelector(".download-fill") as HTMLElement;
+                fill.style.width = percent + "%";
+            });
+
 
         this.updateIframe();
     }
@@ -46,7 +53,7 @@ export class AppComponent implements OnInit {
 
     getVersions(): string[] {
         if (this.apps !== undefined) {
-            let t = this.apps.find((a) => a.Name == this.currentProject)?.Versions;
+            let t = this.apps.find((a) => a.Name == this.currentProject.Name)?.Versions;
             if (t === undefined) {
                 return ["ERROR"];
             }
@@ -77,12 +84,15 @@ export class AppComponent implements OnInit {
         let btn = document.querySelector(".game-button")
         btn?.classList.toggle("downloading")
 
-        window.go.main.Launcher.Download();
+        console.log("interact");
+
+
+        window.go.main.Launcher.Download(this.currentProject.Name + "/" + this.currentVersion);
     }
 
     selectApp(app: ListItem) {
-        if (this.currentProject != app.Name) {
-            this.currentProject = app.Name;
+        if (this.currentProject != app) {
+            this.currentProject = app;
             this.updateIframe();
         }
     }

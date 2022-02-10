@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/dropbox/dropbox-sdk-go-unofficial/v6 v6.0.3
 	github.com/mitchellh/ioprogress v0.0.0-20180201004757-6a23b12fa88e
-	github.com/wailsapp/wails/v2 v2.0.0-beta.29.0.20220201091857-e17f556c254f
+	github.com/wailsapp/wails/v2 v2.0.0-beta.30
 )
 
 require (
@@ -27,7 +27,7 @@ require (
 	github.com/leaanthony/gosod v1.0.3 // indirect
 	github.com/leaanthony/slicer v1.6.0 // indirect
 	github.com/leaanthony/typescriptify-golang-structs v0.1.7 // indirect
-	github.com/leaanthony/winc v0.0.0-20220125074539-cf4d9ec77fc3 // indirect
+	github.com/leaanthony/winc v0.0.0-20220202120322-32d63aaf77de // indirect
 	github.com/pkg/browser v0.0.0-20210911075715-681adbf594b8 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect

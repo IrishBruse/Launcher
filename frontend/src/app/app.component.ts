@@ -1,103 +1,193 @@
-import { ListItem } from 'src/app/App';
-import { Component, OnInit } from '@angular/core';
+import { ListItem } from "./ListItem";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { AppState } from "./AppState";
 
-@Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css'],
-})
-export class AppComponent implements OnInit {
-    apps!: ListItem[];
-    buttonText: string = "Download";
-    currentProject!: ListItem;
-    currentVersion: string = "";
-    percent: number = 0.0;
+@Component({ selector: "app-root", templateUrl: "./app.component.html", styleUrls: ["./app.component.css"] })
+export class AppComponent implements OnInit
+{
+    apps = new Array<ListItem>();
 
-    constructor() { }
+    state = AppState.Download;
 
-    ngOnInit(): void {
+    currentVersion = "";
+    currentProject = new ListItem();
+
+    @ViewChild("buttonText") buttonText!: ElementRef<HTMLInputElement>;
+
+    ngOnInit(): void
+    {
         window.go.main.Launcher.GetApps().then(
-            (apps) => {
+            (apps) =>
+            {
                 this.apps = JSON.parse(apps);
-                this.currentProject = this.apps[0];
+                this.selectApp(this.apps[0]);
             }
         );
 
-
         window.runtime.EventsOn("downloadProgress",
-            (percent) => {
-                console.log("test");
+            (percent: number) =>
+            {
+                this.buttonText.nativeElement.textContent = percent + "%";
 
                 let btn = document.querySelector(".game-button");
 
-                window.runtime.LogDebug(percent);
-
-                let percentageText = btn?.querySelector(".app-button-text") as HTMLElement;
-                percentageText.textContent = percent + "%";
-
                 let fill = btn?.querySelector(".download-fill") as HTMLElement;
                 fill.style.width = percent + "%";
-            });
 
+                if (percent == 100)
+                {
+                    setTimeout(() =>
+                    {
+                        let btn = document.querySelector(".game-button");
+                        if (btn != null)
+                        {
+                            btn.classList.remove("downloading");
+                            this.changeState(AppState.Play);
+                        }
 
-        this.updateIframe();
-    }
+                        this.currentProject.Downloaded.push(this.currentVersion);
 
-    updateIframe() {
-        // This is unsafe but DomSanitizer wasnt working and this is a local app so it shouldnt matter
-        const iframe = document.getElementById('game-preview-iframe') as HTMLIFrameElement;
-        if (iframe.contentWindow != null) {
-            iframe.contentWindow.location.replace('https://www.ethanconneely.com/projects/' + this.currentProject + '/?launcher=true');
-        }
-    }
+                        fill.style.width = 0 + "%";
+                    }, 1000);
+                }
 
-    getVersions(): string[] {
-        if (this.apps !== undefined) {
-            let t = this.apps.find((a) => a.Name == this.currentProject.Name)?.Versions;
-            if (t === undefined) {
-                return ["ERROR"];
             }
-            return t;
-        }
-        return ["ERROR"];
+        );
     }
 
-    modalClose() {
+    updateIframe()
+    {
+        // This is unsafe but DomSanitizer wasnt working and this is a local app so it shouldnt matter
+        const iframe = document.getElementById("game-preview-iframe") as HTMLIFrameElement;
+        if (iframe.contentWindow != null)
+        {
+            iframe.contentWindow.location.replace("https://www.ethanconneely.com/projects/" + this.currentProject.Name + "/?launcher=true");
+        }
+    }
+
+    getVersions(): string[] | undefined
+    {
+        return this.apps.find((a) => a.Name == this.currentProject.Name)?.Versions;
+    }
+
+    modalToggle()
+    {
+        if (this.state == AppState.Playing || this.state == AppState.Downloading)
+        {
+            return;
+        }
+
         let popup = document.getElementById("popup");
-        if (popup != undefined) {
-            popup.classList.add("modal-closed");
+        if (popup != undefined)
+        {
+            popup.classList.toggle("modal-closed");
         }
     }
 
-    modalOpen() {
-        let popup = document.getElementById("popup");
-        if (popup != undefined) {
-            popup.classList.remove("modal-closed");
+    modalDelete()
+    {
+        this.modalToggle();
+    }
+
+    appInteract()
+    {
+        switch (this.state)
+        {
+        case AppState.Download:
+            this.download();
+            break;
+
+        case AppState.Play:
+            this.play();
+            break;
         }
     }
 
-    modalDelete() {
-        this.modalClose();
+    play()
+    {
+        this.changeState(AppState.Playing);
+        window.go.main.Launcher.Play(this.currentProject.Name + "/" + this.currentVersion).then(() =>
+        {
+            this.onChangeVersion();
+        });
     }
 
-    appInteract() {
-        let btn = document.querySelector(".game-button")
-        btn?.classList.toggle("downloading")
+    download()
+    {
+        let btn = document.querySelector(".game-button");
+        if (btn != null)
+        {
+            btn.classList.add("downloading");
+            this.changeState(AppState.Downloading);
+            this.buttonText.nativeElement.textContent = "0%";
+        }
 
-        console.log("interact");
-
-
-        window.go.main.Launcher.Download(this.currentProject.Name + "/" + this.currentVersion);
+        window.go.main.Launcher.Download("/" + this.currentProject.Name + "/" + this.currentVersion + ".zip");
     }
 
-    selectApp(app: ListItem) {
-        if (this.currentProject != app) {
+    onChangeVersion()
+    {
+        window.runtime.LogInfo(this.currentVersion);
+
+        this.changeState(AppState.Download);
+
+        this.apps.forEach(app =>
+        {
+            if (app.Downloaded != null)
+            {
+                console.log(app);
+
+                if (app.Downloaded.indexOf(this.currentVersion) !== -1)
+                {
+                    this.changeState(AppState.Play);
+                }
+            }
+        });
+
+
+        console.log("test");
+
+    }
+
+    private changeState(state: AppState)
+    {
+        this.state = state;
+
+        let val = "Error";
+        switch (state)
+        {
+        case AppState.Download:
+            val = "Download";
+            break;
+
+        case AppState.Downloading:
+            val = "Downloading";
+            break;
+
+        case AppState.Play:
+            val = "Play";
+            break;
+
+        case AppState.Playing:
+            val = "Playing";
+            break;
+        }
+        this.buttonText.nativeElement.textContent = val;
+    }
+
+    selectApp(app: ListItem)
+    {
+        if (this.state == AppState.Playing || this.state == AppState.Downloading)
+        {
+            return;
+        }
+
+        if (this.currentProject != app)
+        {
             this.currentProject = app;
+            this.currentVersion = app.Versions[0];
+            this.onChangeVersion();
             this.updateIframe();
         }
-    }
-
-    selectVersion(selectElement: any) {
-        console.log("test", selectElement);
     }
 }

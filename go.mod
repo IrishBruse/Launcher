@@ -4,7 +4,6 @@ go 1.17
 
 require (
 	github.com/dropbox/dropbox-sdk-go-unofficial/v6 v6.0.3
-	github.com/mitchellh/ioprogress v0.0.0-20180201004757-6a23b12fa88e
 	github.com/wailsapp/wails/v2 v2.0.0-beta.30
 )
 
@@ -42,5 +41,3 @@ require (
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
 )
-
-replace github.com/leaanthony/winc v0.0.0-20220125074539-cf4d9ec77fc3 => github.com/stffabi/winc v0.0.0-20220127083852-9801ff2555c0

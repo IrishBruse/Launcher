@@ -1,9 +1,2 @@
-# Wails bin directory
-build/bin
-
-# IDEs
-.idea
-.vscode
-
-# The black hole that is...
-node_modules
+build/bin/
+frontend/src/wailsjs/

@@ -1,17 +1,10 @@
 <div class="layout">
-    <div class="background-dark">
-        <!-- Empty -->
-    </div>
-
-    <div class="background-dark">
-        <h2 class="text-center game-title">{{ currentProject }}</h2>
-    </div>
 
     <div class="background-light h-full app-list">
         <button *ngFor="let app of apps" (click)="selectApp(app)" class="flex w-full app-button"
-            [class.current]="app.Name == currentProject.Name">
+            [class.current]="app.Name === currentProject.Name">
             <img [src]="app.IconURL" alt="" class="app-icon" />
-            <h3 class="flex-v-center">{{ app.Name }}</h3>
+            <h3 class="flex-v-center">{{ app?.Name }}</h3>
         </button>
     </div>
 
@@ -22,20 +15,20 @@
         <label class="mr-2 flex-v-center">
             <h3>Version:</h3>
         </label>
-        <select class="version-button flex-v-center" title="version" name="version" [(ngModel)]="currentVersion">
-            <option *ngFor="let version of getVersions()" [ngValue]="version" [title]="version">
+        <select class="version-button flex-v-center" [(ngModel)]="currentVersion" (ngModelChange)="onChangeVersion()">
+            <option *ngFor="let version of getVersions()" [ngValue]="version">
                 {{ version }}
             </option>
         </select>
     </div>
 
     <div class="background-dark flex justify-center">
-        <button [title]="buttonText" (click)="appInteract()" class="game-button">
-            <h3 class="app-button-text">{{ buttonText }}</h3>
+        <button (click)="appInteract()" class="game-button">
+            <h3 class="app-button-text" #buttonText>Download</h3>
             <div class="download-fill"></div>
         </button>
 
-        <button class="delete-button flex-v-center" (click)="modalOpen()">
+        <button class="delete-button flex-v-center" (click)="modalToggle()">
             <img src="/assets/bin.png" alt="bin" />
         </button>
     </div>
@@ -47,7 +40,7 @@
 
         <div class="flex justify-center">
             <button class="red" (click)="modalDelete()">Delete</button>
-            <button class="green" (click)="modalClose()">Cancel</button>
+            <button class="green" (click)="modalToggle()">Cancel</button>
         </div>
     </div>
 </div>

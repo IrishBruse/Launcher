@@ -5,17 +5,22 @@ import (
 	"encoding/json"
 	"io"
 	"io/fs"
+	"io/ioutil"
 	"os"
+	"os/exec"
 	"path"
+	"path/filepath"
+	"strings"
 	"sync"
 
 	"github.com/dropbox/dropbox-sdk-go-unofficial/v6/dropbox"
 	"github.com/dropbox/dropbox-sdk-go-unofficial/v6/dropbox/files"
-	"github.com/mitchellh/ioprogress"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 var downloadsFolder string
+var launcher *Launcher
+var downloadPercent int
 
 // Launcher struct
 type Launcher struct {
@@ -24,7 +29,8 @@ type Launcher struct {
 
 // NewApp creates a new App application struct
 func NewApp() *Launcher {
-	return &Launcher{}
+	launcher = &Launcher{}
+	return launcher
 }
 
 // startup is called at application startup
@@ -43,9 +49,54 @@ func (b *Launcher) domReady(ctx context.Context) {
 func (b *Launcher) shutdown(ctx context.Context) {
 }
 
+// PassThru test
+type PassThru struct {
+	io.Reader
+	total    int64 // Total # of bytes transferred
+	length   int64 // Expected length
+	progress float64
+}
+
+// Read 'overrides' the underlying io.Reader's Read method.
+// This is the one that will be called by io.Copy(). We simply
+// use it to keep track of byte counts and then forward the call.
+func (pt *PassThru) Read(p []byte) (int, error) {
+	n, err := pt.Reader.Read(p)
+	if n > 0 {
+		pt.total += int64(n)
+		percentage := float64(pt.total) / float64(pt.length) * float64(95)
+		downloadPercent = int(percentage)
+		runtime.EventsEmit(launcher.ctx, "downloadProgress", downloadPercent)
+	}
+
+	return n, err
+}
+
+// Play exe
+func (b *Launcher) Play(folder string) {
+	runtime.WindowMinimise(b.ctx)
+	pattern := path.Join(downloadsFolder, folder, "/*.exe")
+	executables, err := filepath.Glob(pattern)
+	if err != nil {
+		runtime.MessageDialog(b.ctx, runtime.MessageDialogOptions{
+			Type:    runtime.ErrorDialog,
+			Title:   "Download (dbx.Download) Error!",
+			Message: err.Error(),
+		})
+		runtime.LogError(b.ctx, err.Error())
+		return
+	}
+
+	app := exec.Command(executables[0])
+	app.Dir = path.Join(downloadsFolder, folder)
+	app.Run()
+
+	runtime.WindowUnminimise(b.ctx)
+}
+
 // Download url
-func (b *Launcher) Download(url string) {
-	runtime.LogInfo(b.ctx, "test")
+func (b *Launcher) Download(file string) {
+	runtime.LogInfo(b.ctx, file)
 
 	config := dropbox.Config{
 		Token:    dropboxToken,
@@ -53,43 +104,47 @@ func (b *Launcher) Download(url string) {
 	}
 
 	dbx := files.New(config)
-	downloadArg := files.NewDownloadArg(url)
+	downloadArg := files.NewDownloadArg(file)
 
 	res, reader, err := dbx.Download(downloadArg)
-
 	if err != nil {
 		runtime.MessageDialog(b.ctx, runtime.MessageDialogOptions{
 			Type:    runtime.ErrorDialog,
-			Title:   "Dropbox (dbx.Download) Error!",
+			Title:   "Download (dbx.Download) Error!",
 			Message: err.Error(),
 		})
 		runtime.LogError(b.ctx, err.Error())
+		return
 	}
 
 	defer reader.Close()
 
-	os.MkdirAll(downloadsFolder+path.Dir(url), fs.ModeDir)
+	os.MkdirAll(downloadsFolder+path.Dir(file), fs.ModeDir)
 
-	f, _ := os.Create(downloadsFolder + url)
-	defer f.Close()
-
-	progressbar := &ioprogress.Reader{
-		Reader: reader,
-		Size:   int64(res.Size),
-		DrawFunc: ioprogress.DrawTerminalf(os.Stderr, func(i1, i2 int64) string {
-			percent := float32(i1) / float32(i2) * 95.0
-			runtime.LogInfo(b.ctx, "test")
-			runtime.EventsEmit(b.ctx, "downloadProgress", percent)
-			return ""
-		}),
+	readerpt := &PassThru{Reader: reader, length: int64(res.Size)}
+	data, err := ioutil.ReadAll(readerpt)
+	if err != nil {
+		runtime.MessageDialog(b.ctx, runtime.MessageDialogOptions{
+			Type:    runtime.ErrorDialog,
+			Title:   "Download (ioutil.ReadAll) Error!",
+			Message: err.Error(),
+		})
+		runtime.LogError(b.ctx, err.Error())
+		return
 	}
 
-	io.Copy(f, progressbar)
+	os.WriteFile(downloadsFolder+file, data, 0644)
+
+	versionFolder := path.Join(downloadsFolder, strings.Replace(file, ".zip", "", 1))
+	Unzip(downloadsFolder+file, versionFolder)
+	os.Remove(downloadsFolder + file)
+
+	runtime.EventsEmit(b.ctx, "downloadProgress", 100)
 }
 
 // GetApps returns an array of icon urls from dropbox
 func (b *Launcher) GetApps() string {
-	apps := make([]App, 0, 10)
+	apps := make([]ListItem, 0, 10)
 
 	var wg sync.WaitGroup
 
@@ -98,7 +153,8 @@ func (b *Launcher) GetApps() string {
 	appNames := dropboxGetApps(b.ctx)
 
 	for i := 0; i < len(appNames); i++ {
-		apps = append(apps, App{Name: appNames[i]})
+		apps = append(apps, ListItem{Name: appNames[i]})
+		apps[i].Downloaded = make([]string, 0)
 	}
 
 	wg.Add(1)
@@ -115,6 +171,41 @@ func (b *Launcher) GetApps() string {
 
 	wg.Wait()
 
+	downloads, err := os.ReadDir(downloadsFolder)
+	if err != nil {
+		runtime.MessageDialog(b.ctx, runtime.MessageDialogOptions{
+			Type:    runtime.ErrorDialog,
+			Title:   "Download (os.ReadDir(downloadsFolder)) Error!",
+			Message: err.Error(),
+		})
+		runtime.LogError(b.ctx, err.Error())
+		return ""
+	}
+
+	for _, d := range downloads {
+		if d.IsDir() {
+			versions, err := os.ReadDir(path.Join(downloadsFolder, d.Name()))
+			if err != nil {
+				runtime.MessageDialog(b.ctx, runtime.MessageDialogOptions{
+					Type:    runtime.ErrorDialog,
+					Title:   "Download (os.ReadDir(path.Join(downloadsFolder, app.Name()))) Error!",
+					Message: err.Error(),
+				})
+				runtime.LogError(b.ctx, err.Error())
+				return ""
+			}
+
+			for _, version := range versions {
+				for i := 0; i < len(apps); i++ {
+					if apps[i].Name == d.Name() {
+						apps[i].Downloaded = append(apps[i].Downloaded, version.Name())
+						break
+					}
+				}
+			}
+		}
+	}
+
 	b2, err := json.Marshal(apps)
 	if err != nil {
 		runtime.MessageDialog(b.ctx, runtime.MessageDialogOptions{
@@ -123,7 +214,10 @@ func (b *Launcher) GetApps() string {
 			Message: err.Error(),
 		})
 		runtime.LogError(b.ctx, err.Error())
+		return ""
 	}
+
+	// runtime.LogInfo(b.ctx, string(b2))
 
 	return string(b2)
 }

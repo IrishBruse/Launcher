@@ -1,7 +1,7 @@
 .layout {
     display: grid;
     grid-template-columns: 16rem auto;
-    grid-template-rows: 4rem auto 4rem;
+    grid-template-rows: auto 4rem;
 
     width: 100vw;
     height: 100vh;

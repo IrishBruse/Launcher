@@ -15,11 +15,12 @@ const dropboxTokenA = "8TduvHwqR_0AAAAAAAAAAdAZ72VyHDLp"
 const dropboxTokenB = "PvmI6Ba4YOJdMVUL_FHf85hQyU9FXFle"
 const dropboxToken = dropboxTokenA + dropboxTokenB
 
-// App is an app entry on dropbox
-type App struct {
-	Name     string
-	IconURL  string
-	Versions []string
+// ListItem is an app entry on dropbox
+type ListItem struct {
+	Name       string
+	IconURL    string
+	Versions   []string
+	Downloaded []string
 }
 
 var dbx files.Client
@@ -32,7 +33,7 @@ func dbxinit() {
 	dbx = files.New(config)
 }
 
-func dropboxFetchIcons(ctx context.Context, apps []App) {
+func dropboxFetchIcons(ctx context.Context, apps []ListItem) {
 	arg := files.NewSearchV2Arg("*/*icon.png")
 
 	res, err := dbx.SearchV2(arg)
@@ -43,6 +44,7 @@ func dropboxFetchIcons(ctx context.Context, apps []App) {
 			Message: err.Error(),
 		})
 		runtime.LogError(ctx, err.Error())
+		return
 	}
 
 	var wg sync.WaitGroup
@@ -60,6 +62,7 @@ func dropboxFetchIcons(ctx context.Context, apps []App) {
 						Message: err.Error(),
 					})
 					runtime.LogError(ctx, err.Error())
+					return
 				}
 
 				for i := 0; i < len(apps); i++ {
@@ -77,7 +80,7 @@ func dropboxFetchIcons(ctx context.Context, apps []App) {
 	wg.Wait()
 }
 
-func dropboxFetchVersions(ctx context.Context, apps []App) {
+func dropboxFetchVersions(ctx context.Context, apps []ListItem) {
 	arg := files.NewSearchV2Arg("*/*.zip")
 
 	res, err := dbx.SearchV2(arg)
@@ -88,6 +91,7 @@ func dropboxFetchVersions(ctx context.Context, apps []App) {
 			Message: err.Error(),
 		})
 		runtime.LogError(ctx, err.Error())
+		return
 	}
 
 	for _, v := range res.Matches {
@@ -117,6 +121,7 @@ func dropboxGetApps(ctx context.Context) []string {
 			Message: err.Error(),
 		})
 		runtime.LogError(ctx, err.Error())
+		return nil
 	}
 
 	for _, v := range res.Entries {

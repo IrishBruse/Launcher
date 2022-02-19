@@ -1,0 +1,8 @@
+{
+  "files.exclude": {
+    "frontend/": true
+  },
+  "search.exclude": {
+    "frontend/": true
+  }
+}

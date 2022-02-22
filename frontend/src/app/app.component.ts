@@ -87,6 +87,10 @@ export class AppComponent implements OnInit
     modalDelete()
     {
         this.modalToggle();
+        window.go.main.Launcher.Delete(this.currentProject.Name + "/" + this.currentVersion).then(() =>
+        {
+            this.currentProject.Downloaded.splice(this.currentProject.Downloaded.indexOf(this.currentVersion), 1);
+        });
     }
 
     appInteract()

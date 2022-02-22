@@ -39,6 +39,7 @@ func (b *Launcher) startup(ctx context.Context) {
 
 	Appdata, _ := os.UserConfigDir()
 	downloadsFolder = path.Join(Appdata, "IrishBruse", "Launcher")
+	os.MkdirAll(downloadsFolder, 0666)
 }
 
 // domReady is called after the front-end dom has been loaded
@@ -72,7 +73,7 @@ func (pt *PassThru) Read(p []byte) (int, error) {
 	return n, err
 }
 
-// Play exe
+// Play version
 func (b *Launcher) Play(folder string) {
 	runtime.WindowMinimise(b.ctx)
 	pattern := path.Join(downloadsFolder, folder, "/*.exe")
@@ -92,6 +93,12 @@ func (b *Launcher) Play(folder string) {
 	app.Run()
 
 	runtime.WindowUnminimise(b.ctx)
+}
+
+// Delete version
+func (b *Launcher) Delete(folder string) {
+	path := path.Join(downloadsFolder, folder)
+	os.RemoveAll(path)
 }
 
 // Download url

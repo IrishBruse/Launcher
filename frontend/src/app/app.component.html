@@ -1,8 +1,8 @@
 <div class="layout">
 
     <div class="background-light h-full app-list">
-        <button *ngFor="let app of apps" (click)="selectApp(app)" class="flex w-full app-button"
-            [class.current]="app.Name === currentProject.Name">
+        <button *ngFor="let app of apps;let indexOfelement=index;" (click)="selectApp(app ,indexOfelement)"
+            class="flex w-full app-button" [class.current]="indexOfelement === currentProject">
             <img [src]="app.IconURL" alt="" class="app-icon" />
             <h3 class="flex-v-center">{{ app?.Name }}</h3>
         </button>

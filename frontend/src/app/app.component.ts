@@ -93,13 +93,12 @@ export class AppComponent implements OnInit
         window.go.main.Launcher.Delete(this.apps[this.currentProject].Name + "/" + this.currentVersion).then(() =>
         {
             this.apps[this.currentProject].Downloaded.splice(this.apps[this.currentProject].Downloaded.indexOf(this.currentVersion), 1);
+            this.onChangeVersion();
         });
     }
 
     appInteract()
     {
-        window.runtime.LogInfo("appInteract");
-
         switch (this.state)
         {
         case AppState.Download:

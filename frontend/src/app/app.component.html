@@ -15,7 +15,7 @@
         <label class="mr-2 flex-v-center">
             <h3>Version:</h3>
         </label>
-        <select class="version-button flex-v-center" [(ngModel)]="currentVersion" (ngModelChange)="onChangeVersion()">
+        <select class="version-button flex-v-center" [(ngModel)]="currentVersion" (ngModelChange)="updateButton()">
             <option *ngFor="let version of getVersions()" [ngValue]="version">
                 {{ version }}
             </option>

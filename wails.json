@@ -3,19 +3,15 @@
     "assetdir": "frontend/dist",
     "frontend:build": "npm run build",
     "frontend:install": "npm install",
-    "frontend:dev": "",
+    "frontend:dev": "npm run dev",
+    "frontend:dev:watcher": "npm run watch",
     "wailsjsdir": "./frontend/src/",
     "version": "2",
-    "Path": "",
-    "BuildDir": "",
     "outputfilename": "launcher.exe",
-    "OutputType": "",
-    "Platform": "",
     "Author": {
         "name": "IrishBruse",
         "email": "Econn50@outlook.com"
     },
     "debounceMS": 100,
-    "devserverurl": "http://localhost:34115",
-    "appargs": ""
+    "devserverurl": "http://localhost:34115"
 }

@@ -23,7 +23,7 @@ export class AppComponent implements OnInit
                 this.currentProject = 0;
                 this.currentVersion = this.apps[0].Versions[0];
 
-                this.onChangeVersion();
+                this.updateButton();
                 this.updateIframe();
             }
         );
@@ -93,7 +93,7 @@ export class AppComponent implements OnInit
         window.go.main.Launcher.Delete(this.apps[this.currentProject].Name + "/" + this.currentVersion).then(() =>
         {
             this.apps[this.currentProject].Downloaded.splice(this.apps[this.currentProject].Downloaded.indexOf(this.currentVersion), 1);
-            this.onChangeVersion();
+            this.updateButton();
         });
     }
 
@@ -116,7 +116,7 @@ export class AppComponent implements OnInit
         this.changeState(AppState.Playing);
         window.go.main.Launcher.Play(this.apps[this.currentProject].Name + "/" + this.currentVersion).then(() =>
         {
-            this.onChangeVersion();
+            this.updateButton();
         });
     }
 
@@ -133,7 +133,7 @@ export class AppComponent implements OnInit
         window.go.main.Launcher.Download("/" + this.apps[this.currentProject].Name + "/" + this.currentVersion + ".zip");
     }
 
-    onChangeVersion()
+    updateButton()
     {
         this.changeState(AppState.Download);
 
@@ -189,6 +189,6 @@ export class AppComponent implements OnInit
         this.currentVersion = app.Versions[0];
 
         this.updateIframe();
-        this.onChangeVersion();
+        this.updateButton();
     }
 }

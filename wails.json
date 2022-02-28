@@ -7,7 +7,7 @@
     "frontend:dev:watcher": "npm run watch",
     "wailsjsdir": "./frontend/src/",
     "version": "2",
-    "outputfilename": "launcher.exe",
+    "outputfilename": "Launcher.exe",
     "Author": {
         "name": "IrishBruse",
         "email": "Econn50@outlook.com"
